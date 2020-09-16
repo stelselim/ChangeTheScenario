@@ -11,11 +11,76 @@ class LoginPage extends StatelessWidget {
     final headerFormSpaceRatio = 0.08;
     final formButtonSpaceRatio = 0.035;
 
+    ///AutoLogin
+    bool autoLogin = false;
+
     /// Login Form Key
     final loginKey = GlobalKey<FormState>();
 
     String email;
     String password;
+
+    if (autoLogin) {
+      return Scaffold(
+        resizeToAvoidBottomPadding: false,
+        body: Container(
+          height: height * 1.2,
+          width: width * 1.2,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.red.shade500,
+                Color.fromRGBO(125, 92, 255, 1),
+              ],
+            ),
+          ),
+          child: Form(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: height * 0.2,
+                  ),
+                  // Email & Password
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Change The Scenario",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 28,
+                          ),
+                        ),
+                        TextSpan(text: "\n"),
+                        TextSpan(
+                          text: "With Yours",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 50,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * 0.15,
+                  ),
+                  Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -136,10 +201,12 @@ class LoginPage extends StatelessWidget {
                 ),
 
                 /// Login
-                RaisedButton(
+                GestureDetector(
                   child: Container(
                     width: width * 0.45,
+                    padding: EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(25),
                     ),
                     alignment: Alignment.center,
@@ -168,7 +235,7 @@ class LoginPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  onPressed: () {
+                  onTap: () {
                     print(email);
                     print(password);
                     Navigator.pushReplacementNamed(context, "/home");
