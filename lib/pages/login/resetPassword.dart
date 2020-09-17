@@ -1,4 +1,6 @@
+import 'package:changescenario/styles/color/backgroundDecoration.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ResetPasswordPage extends StatelessWidget {
   @override
@@ -8,14 +10,7 @@ class ResetPasswordPage extends StatelessWidget {
     String email = "";
 
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.red.shade500,
-            Color.fromRGBO(125, 92, 255, 1),
-          ],
-        ),
-      ),
+      decoration: backgroundDecoration,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -32,9 +27,11 @@ class ResetPasswordPage extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // Space
             SizedBox(
               height: height * 0.05,
             ),
+            // Email Form
             Container(
               padding:
                   const EdgeInsets.only(left: 15, bottom: 2, right: 2, top: 2),
@@ -66,6 +63,7 @@ class ResetPasswordPage extends StatelessWidget {
                 onSaved: (val) => email = val,
               ),
             ),
+            // Send Button
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(top: 20),
@@ -94,7 +92,13 @@ class ResetPasswordPage extends StatelessWidget {
               ),
               onTap: () {
                 print(email);
-                if (email != "") Navigator.pushReplacementNamed(context, "/");
+                if (email != "" && email.contains('@')) {
+                  Navigator.pushReplacementNamed(context, "/");
+                } else {
+                  Fluttertoast.showToast(
+                      msg: "Please Enter Valid Email",
+                      gravity: ToastGravity.CENTER);
+                }
               },
             ),
           ],

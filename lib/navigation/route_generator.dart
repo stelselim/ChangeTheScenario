@@ -1,4 +1,4 @@
-import 'package:changescenario/pages/home/home.dart';
+import 'package:changescenario/pages/home.dart';
 import 'package:changescenario/pages/login/login.dart';
 import 'package:changescenario/pages/login/resetPassword.dart';
 import 'package:changescenario/pages/login/signUp.dart';

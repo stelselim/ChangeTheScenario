@@ -1,4 +1,7 @@
+import 'package:changescenario/styles/color/backgroundDecoration.dart';
+import 'package:changescenario/utility/setStatusBarColor.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -14,11 +17,11 @@ class LoginPage extends StatelessWidget {
     ///AutoLogin
     bool autoLogin = false;
 
-    /// Login Form Key
-    final loginKey = GlobalKey<FormState>();
+    String email = ""; // Login Email
+    String password = ""; // Login Password
 
-    String email;
-    String password;
+    /// Light Status Color
+    setStatusBarColorDark();
 
     if (autoLogin) {
       return Scaffold(
@@ -26,14 +29,7 @@ class LoginPage extends StatelessWidget {
         body: Container(
           height: height * 1.2,
           width: width * 1.2,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.red.shade500,
-                Color.fromRGBO(125, 92, 255, 1),
-              ],
-            ),
-          ),
+          decoration: backgroundDecoration,
           child: Form(
             child: SingleChildScrollView(
               child: Column(
@@ -86,14 +82,7 @@ class LoginPage extends StatelessWidget {
       resizeToAvoidBottomPadding: false,
       body: Container(
         height: height * 1,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.red.shade500,
-              Color.fromRGBO(125, 92, 255, 1),
-            ],
-          ),
-        ),
+        decoration: backgroundDecoration,
         child: Form(
           child: SingleChildScrollView(
             child: Column(
@@ -236,9 +225,12 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    print(email);
-                    print(password);
-                    Navigator.pushReplacementNamed(context, "/home");
+                    if (email != "" && email.contains('@') && password != "") {
+                      Navigator.pushReplacementNamed(context, "/home");
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "Checked Your Email or Password");
+                    }
                   },
                 ),
 
