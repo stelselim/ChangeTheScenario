@@ -1,12 +1,13 @@
 import 'package:changescenario/pages/discover/discover.dart';
 import 'package:changescenario/pages/profile/profile.dart';
-import 'package:changescenario/pages/scenario/senario.dart';
+import 'package:changescenario/pages/scenario/scenario.dart';
 import 'package:changescenario/pages/weekList/weeklyList.dart';
 import 'package:changescenario/styles/color/colors.dart';
 import 'package:changescenario/utility/setStatusBarColor.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
@@ -15,17 +16,21 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   /// Current Body Index
   int currentIndex = 0;
 
   /// Body Widgets
-  List<Widget> bodyStack = [
+  final List<Widget> bodyStack = [
     ScenarioPage(),
     WeeklyList(),
     DiscoverPage(),
     ProfilePage(),
   ];
+
+  /// Floating Action Button Animation
+  AnimationController _animationController;
+  Animation _colorTween;
 
   /// Bottom Navigation On Tap Function For Change Body
   void bottomNavOnTap(int index) {
@@ -37,11 +42,52 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     setStatusBarColorLight();
+
+    /// Animation Controller For Floating Action Button
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    );
+
+    /// Animation
+    _colorTween = ColorTween(
+      begin: Colors.purple,
+      end: Colors.green,
+    ).animate(_animationController);
+
     super.initState();
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _animationController.dispose();
+  }
+
+  Widget floatingActionButtonSwitch(int index) {
+    if (index == 0) {
+      return Container(
+        margin: EdgeInsets.only(bottom: 15),
+        child: AnimatedBuilder(
+          animation: _colorTween,
+          builder: (context, wid) {
+            return FloatingActionButton(
+              backgroundColor: _colorTween.value,
+              child: Icon(Icons.create),
+              onPressed: () {},
+            );
+          },
+        ),
+      );
+    } else {
+      return null;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _animationController.repeat(reverse: true);
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -51,6 +97,7 @@ class _HomeState extends State<Home> {
         index: currentIndex,
         children: bodyStack,
       ),
+      floatingActionButton: floatingActionButtonSwitch(currentIndex),
       bottomNavigationBar: FloatingNavbar(
         selectedBackgroundColor: Colors.white,
         selectedItemColor: Colors.grey.shade900,

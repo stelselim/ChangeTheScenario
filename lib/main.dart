@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: "Change The Scenario",
       debugShowCheckedModeBanner: false,
-      initialRoute: "/",
+      initialRoute: "/home",
       // Initialy Display Login
       onGenerateRoute: RouteGenerator.generateRoute,
     );

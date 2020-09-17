@@ -26,6 +26,7 @@ dependencies:
   fluttertoast: ^7.1.1
   # bloc: ^6.0.3
   firebase_auth: ^0.18.0+1
+  font_awesome_flutter: ^8.8.1
   cloud_firestore: ^0.14.0+2
   floating_bottom_navigation_bar: ^1.4.1
   # The following adds the Cupertino Icons font to your application.

@@ -1,4 +1,6 @@
+import 'package:changescenario/components/appBarText.dart';
 import 'package:changescenario/components/weeklist/filmListTile.dart';
+import 'package:changescenario/styles/textStyles/textStyles.dart';
 import 'package:flutter/material.dart';
 
 class WeeklyList extends StatelessWidget {
@@ -6,31 +8,30 @@ class WeeklyList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        physics: ClampingScrollPhysics(),
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return SafeArea(
+      child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Weekly List",
-              textScaleFactor: 2,
-              style: TextStyle(
-                color: Colors.grey,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
+          appBarText(
+            height: height,
+            title: "Watched Or Not",
+            italic: FontStyle.italic,
+            textColor: Colors.green.shade800,
           ),
-          ListView.builder(
-            itemCount: 7,
-            physics: ClampingScrollPhysics(),
-            padding: EdgeInsets.only(bottom: 10),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return FilmListTile(
-                index: index,
-              );
-            },
+          Expanded(
+            child: ListView.builder(
+              itemCount: 7,
+              physics: ClampingScrollPhysics(),
+              padding: EdgeInsets.only(bottom: 10),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return FilmListTile(
+                  index: index,
+                );
+              },
+            ),
           ),
         ],
       ),
