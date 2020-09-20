@@ -1,21 +1,25 @@
+import 'package:changescenario/classes/FilmsItem.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FilmListTile extends StatelessWidget {
   FilmListTile({
     this.index,
+    @required this.filmItem,
   });
 
+  final FilmItem filmItem;
   final int index;
-  final String filmName = "Batman Rises";
-  final String releaseYear = "2020";
-  final num score = 33;
-  final int watched = 233;
-  final int unwatched = 120;
-  final num imdbRating = 8.9;
 
   @override
   Widget build(BuildContext context) {
+    final String filmName = filmItem.filmName;
+    final String releaseYear = filmItem.releaseYear;
+    final num score = filmItem.score;
+    final int watched = filmItem.watched;
+    final int unwatched = filmItem.unwatched;
+    final num imdbRating = filmItem.imdbRating;
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12),
       alignment: Alignment.center,
@@ -29,18 +33,18 @@ class FilmListTile extends StatelessWidget {
               "${index + 1}",
               textScaleFactor: 1.15,
             ),
-            trailing: Text(
-              "$score",
-              textScaleFactor: 1.35,
+            trailing: Column(
+              children: [
+                Text(
+                  "$score",
+                  textScaleFactor: 1.35,
+                ),
+              ],
             ),
             subtitle: Row(
               children: [
                 Row(
                   children: [
-                    Text(
-                      "$unwatched",
-                      style: TextStyle(fontSize: 14),
-                    ),
                     IconButton(
                       icon: FaIcon(
                         FontAwesomeIcons.solidArrowAltCircleDown,
@@ -49,14 +53,14 @@ class FilmListTile extends StatelessWidget {
                       ),
                       onPressed: () {},
                     ),
+                    Text(
+                      "$unwatched",
+                      style: TextStyle(fontSize: 14),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
-                    Text(
-                      "$watched",
-                      style: TextStyle(fontSize: 14),
-                    ),
                     IconButton(
                       icon: FaIcon(
                         FontAwesomeIcons.solidArrowAltCircleUp,
@@ -64,6 +68,10 @@ class FilmListTile extends StatelessWidget {
                         size: 18,
                       ),
                       onPressed: () {},
+                    ),
+                    Text(
+                      "$watched",
+                      style: TextStyle(fontSize: 14),
                     ),
                   ],
                 ),

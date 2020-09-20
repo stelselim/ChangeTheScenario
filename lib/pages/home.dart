@@ -74,7 +74,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             return FloatingActionButton(
               backgroundColor: _colorTween.value,
               child: Icon(Icons.create),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, "/addScenario");
+              },
             );
           },
         ),

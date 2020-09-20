@@ -2,6 +2,7 @@ import 'package:changescenario/pages/home.dart';
 import 'package:changescenario/pages/login/login.dart';
 import 'package:changescenario/pages/login/resetPassword.dart';
 import 'package:changescenario/pages/login/signUp.dart';
+import 'package:changescenario/pages/scenario/createScenarioScreen.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -17,6 +18,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SignUpPage());
       case "/resetPassword":
         return MaterialPageRoute(builder: (_) => ResetPasswordPage());
+
+      case "/addScenario":
+        return MaterialPageRoute(builder: (_) => ScenarioAddPage());
 
       /// App
       case "/home":
