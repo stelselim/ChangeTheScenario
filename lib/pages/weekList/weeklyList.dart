@@ -1,5 +1,5 @@
 import 'package:changescenario/classes/FilmsItem.dart';
-import 'package:changescenario/components/appBarText.dart';
+import 'package:changescenario/components/appBarWithText.dart';
 import 'package:changescenario/components/weeklist/filmListTile.dart';
 import 'package:changescenario/components/weeklist/rankNameScore.dart';
 import 'package:changescenario/styles/textStyles/textStyles.dart';
@@ -31,6 +31,38 @@ final List<Map<String, dynamic>> filmList = [
     'unwatched': 67,
     'imdbRating': 8.4,
   },
+  {
+    'filmName': "Batman Rises",
+    'releaseYear': "2012",
+    'score': 33,
+    'watched': 122,
+    'unwatched': 67,
+    'imdbRating': 8.4,
+  },
+  {
+    'filmName': "Batman Rises",
+    'releaseYear': "2012",
+    'score': 33,
+    'watched': 122,
+    'unwatched': 67,
+    'imdbRating': 8.4,
+  },
+  {
+    'filmName': "Batman Rises",
+    'releaseYear': "2012",
+    'score': 33,
+    'watched': 122,
+    'unwatched': 67,
+    'imdbRating': 8.4,
+  },
+  {
+    'filmName': "Batman Rises",
+    'releaseYear': "2012",
+    'score': 33,
+    'watched': 122,
+    'unwatched': 67,
+    'imdbRating': 8.4,
+  },
 ];
 
 class WeeklyList extends StatelessWidget {
@@ -45,7 +77,7 @@ class WeeklyList extends StatelessWidget {
       child: Column(
         children: [
           /// AppBar
-          appBarText(
+          appBarWithText(
             height: height,
             title: "Week's Film Board",
             italic: FontStyle.italic,

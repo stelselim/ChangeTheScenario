@@ -1,6 +1,6 @@
-import 'package:changescenario/pages/discover/discover.dart';
 import 'package:changescenario/pages/profile/profile.dart';
 import 'package:changescenario/pages/scenario/scenario.dart';
+import 'package:changescenario/pages/together/together.dart';
 import 'package:changescenario/pages/weekList/weeklyList.dart';
 import 'package:changescenario/styles/color/colors.dart';
 import 'package:changescenario/utility/setStatusBarColor.dart';
@@ -24,7 +24,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   final List<Widget> bodyStack = [
     ScenarioPage(),
     WeeklyList(),
-    DiscoverPage(),
+    TogetherPage(),
     ProfilePage(),
   ];
 
@@ -64,6 +64,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     _animationController.dispose();
   }
 
+  /// Floating Action Button Will be Shown According to Current Index
   Widget floatingActionButtonSwitch(int index) {
     if (index == 0) {
       return Container(
@@ -118,7 +119,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           ),
           FloatingNavbarItem(
             icon: Icons.public,
-            title: 'Discover',
+            title: 'Together',
           ),
           FloatingNavbarItem(
             icon: Icons.person,

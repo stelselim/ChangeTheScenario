@@ -1,7 +1,7 @@
 import 'package:changescenario/styles/textStyles/textStyles.dart';
 import 'package:flutter/material.dart';
 
-Widget appBarText({
+Widget appBarWithText({
   @required num height,
   @required String title,
   FontStyle italic = FontStyle.normal,
@@ -9,7 +9,7 @@ Widget appBarText({
 }) =>
     Container(
       alignment: Alignment.centerLeft,
-      padding: EdgeInsets.only(left: 12, bottom: 18.0),
+      padding: EdgeInsets.only(left: 12, bottom: 12.0),
       child: Text(
         "$title",
         style: appbarTextStyle.copyWith(

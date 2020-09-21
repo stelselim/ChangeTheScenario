@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class RankNameScore extends StatelessWidget {
   const RankNameScore({
@@ -34,10 +35,30 @@ class RankNameScore extends StatelessWidget {
           ),
           Expanded(
             flex: 7,
-            child: Text(
-              "Score",
-              style: rankNameScoreTextStyle,
-              textAlign: TextAlign.end,
+            child: GestureDetector(
+              onTap: () {
+                Fluttertoast.showToast(
+                    msg: "Up Vote 3 Points, Down Vote -1 Point",
+                    gravity: ToastGravity.CENTER);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "Score",
+                    style: rankNameScoreTextStyle,
+                    textAlign: TextAlign.end,
+                  ),
+                  SizedBox(
+                    width: 2,
+                  ),
+                  Icon(
+                    Icons.info,
+                    color: rankNameScoreTextStyle.color,
+                    size: 13,
+                  ),
+                ],
+              ),
             ),
           ),
         ],

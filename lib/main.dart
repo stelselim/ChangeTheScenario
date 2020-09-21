@@ -14,6 +14,7 @@ class MainApp extends StatelessWidget {
       title: "Change The Scenario",
       debugShowCheckedModeBanner: false,
       initialRoute: "/home",
+      // initialRoute: "/",
       // Initialy Display Login
       onGenerateRoute: RouteGenerator.generateRoute,
     );
