@@ -1,3 +1,5 @@
+import 'package:changescenario/components/appBarWithText.dart';
+import 'package:changescenario/utility/setStatusBarColor.dart';
 import 'package:flutter/material.dart';
 
 class TogetherPage extends StatelessWidget {
@@ -5,10 +7,18 @@ class TogetherPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text("Together Watch Show"),
-      ),
+    return Column(
+      children: [
+        appBarWithText(
+          height: MediaQuery.of(context).size.height,
+          title: "Watch Together",
+        ),
+        Container(
+          child: Center(
+            child: Text("Together Watch Show"),
+          ),
+        ),
+      ],
     );
   }
 }

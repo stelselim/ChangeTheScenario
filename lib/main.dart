@@ -15,7 +15,6 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: "/home",
       // initialRoute: "/",
-      // Initialy Display Login
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

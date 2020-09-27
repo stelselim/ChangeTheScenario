@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   fluttertoast: ^7.1.1
-  # bloc: ^6.0.3
+  flutter_bloc: ^6.0.5
   firebase_auth: ^0.18.0+1
   font_awesome_flutter: ^8.8.1
   cloud_firestore: ^0.14.0+2

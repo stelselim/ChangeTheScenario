@@ -1,4 +1,8 @@
+import 'package:changescenario/classes/Scenario.dart';
+import 'package:changescenario/classes/ScenarioComment.dart';
 import 'package:changescenario/components/appBarWithText.dart';
+import 'package:changescenario/components/scenario/postCard.dart';
+import 'package:changescenario/utility/setStatusBarColor.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,9 +18,26 @@ final DateTime postTime = DateTime(2020, 10, 2, 5, 17, 30);
 final int like = 22;
 final int dislike = 14;
 final String script =
-    "Spider-Man embarks on a mission to protect his loved ones when OsCorp, owned by his childhood friend Harry Osborn, unleashes a slew of genetically-modified villains against him.";
-// final String writeDocID = "";
-// final List<ScenarioComment> comments // Create ScenarioComment Class
+    "Spider-Man embarks on a mission to protect his loved ones when OsCorp, owned by his childhood friend Harry Osborn, unleashes a slew of genetically-modified villains against him. Osborn, unleashes a slew of genetically-modified villains against him. Osborn, unleashes a slew of genetically-modified villains against him.";
+final String writeDocID = "";
+final List<ScenarioComment> comments = []; // Create ScenarioComment Class
+final List<String> likedUserUIDs = [""];
+final List<String> dislikedUserUIDs = [];
+
+final Scenario scenario = Scenario(
+  title: title,
+  film: film,
+  scriptChanger: scriptChanger,
+  postTime: postTime,
+  like: like,
+  dislike: dislike,
+  script: script,
+  writerUID: writeDocID,
+  docid: "",
+  likedUserUIDs: likedUserUIDs,
+  dislikedUserUIDs: dislikedUserUIDs,
+  comments: comments,
+);
 
 class ScenarioPage extends StatefulWidget {
   const ScenarioPage({Key key}) : super(key: key);
@@ -37,138 +58,35 @@ class _ScenarioPageState extends State<ScenarioPage> {
 
   @override
   Widget build(BuildContext context) {
+    setStatusBarColorLight();
+
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    return SafeArea(
+    return RefreshIndicator(
+      onRefresh: () async {
+        await Future.delayed(Duration(milliseconds: 500));
+        print("Refreshing");
+        setState(() {});
+      },
       child: Column(
         children: [
           appBarWithText(
             height: height,
             title: "Change Scenarios",
-            textColor: Colors.blue.shade700,
           ),
           Expanded(
             child: ListView.builder(
               itemCount: 5,
               shrinkWrap: true,
+              padding: EdgeInsets.only(top: 5),
               physics: ClampingScrollPhysics(),
               controller: scrollController,
               itemBuilder: (context, index) {
                 /// Scenario Post Cards
-                return Container(
-                  height: 240,
-                  margin: EdgeInsets.symmetric(vertical: 25, horizontal: 10),
-                  child: Card(
-                    elevation: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "$title",
-                                  textAlign: TextAlign.left,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 3.0),
-                                  child: GestureDetector(
-                                    child: Icon(Icons.more_vert),
-                                    onTap: () {
-                                      print(
-                                          "Taaped More Settings in Scenario Card");
-                                      Fluttertoast.showToast(
-                                          msg: "Report or Settings");
-                                    },
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("$scriptChanger"),
-                                // Text("${postTime.inMinutes} Ago")
-                                Text(
-                                    "~ ${postTime.month}-${postTime.day}-${postTime.year}"),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text("$film"),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Text("$script"),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              /// Comments Bar
-                              Row(
-                                children: [
-                                  Text("Comments"),
-                                  IconButton(
-                                    icon: Icon(
-                                      FontAwesomeIcons.comment,
-                                      color: Colors.blue.shade200,
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                ],
-                              ),
-
-                              /// Like - Dislike Bar
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  /// Dislike
-                                  Row(
-                                    children: [
-                                      Text("$dislike"),
-                                      IconButton(
-                                        icon: FaIcon(
-                                          Icons.thumb_down,
-                                          color: Colors.blue.shade100,
-                                        ),
-                                        onPressed: () {},
-                                      ),
-                                    ],
-                                  ),
-
-                                  /// Like
-                                  Row(
-                                    children: [
-                                      Text("$like"),
-                                      IconButton(
-                                        icon: FaIcon(
-                                          Icons.thumb_up,
-                                          color: Colors.blue.shade100,
-                                        ),
-                                        onPressed: () {},
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                return ScenarioPostCard(
+                  scenario: scenario,
+                  userUid: "",
                 );
               },
             ),

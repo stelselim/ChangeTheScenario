@@ -3,6 +3,7 @@ import 'package:changescenario/components/appBarWithText.dart';
 import 'package:changescenario/components/weeklist/filmListTile.dart';
 import 'package:changescenario/components/weeklist/rankNameScore.dart';
 import 'package:changescenario/styles/textStyles/textStyles.dart';
+import 'package:changescenario/utility/setStatusBarColor.dart';
 import 'package:flutter/material.dart';
 
 /// Dummy Data
@@ -65,15 +66,27 @@ final List<Map<String, dynamic>> filmList = [
   },
 ];
 
-class WeeklyList extends StatelessWidget {
+class WeeklyList extends StatefulWidget {
   const WeeklyList({Key key}) : super(key: key);
 
   @override
+  _WeeklyListState createState() => _WeeklyListState();
+}
+
+class _WeeklyListState extends State<WeeklyList> {
+  @override
   Widget build(BuildContext context) {
+    setStatusBarColorLight();
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return SafeArea(
+    return RefreshIndicator(
+      onRefresh: () async {
+        await Future.delayed(Duration(milliseconds: 500));
+        print("Refreshing History");
+        setState(() {});
+      },
       child: Column(
         children: [
           /// AppBar
