@@ -10,6 +10,7 @@ class TogetherPage extends StatelessWidget {
     return Column(
       children: [
         appBarWithText(
+          context: context,
           height: MediaQuery.of(context).size.height,
           title: "Watch Together",
         ),

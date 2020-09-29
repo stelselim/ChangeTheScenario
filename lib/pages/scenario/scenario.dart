@@ -73,6 +73,7 @@ class _ScenarioPageState extends State<ScenarioPage> {
         children: [
           appBarWithText(
             height: height,
+            context: context,
             title: "Change Scenarios",
           ),
           Expanded(

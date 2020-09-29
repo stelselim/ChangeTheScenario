@@ -39,7 +39,9 @@ class RouteGenerator {
         appBar: AppBar(
           title: Text("Error"),
         ),
-        body: Text("Page Not Found"),
+        body: Center(
+          child: Text("Page Not Found"),
+        ),
       );
     });
   }

@@ -91,6 +91,7 @@ class _WeeklyListState extends State<WeeklyList> {
         children: [
           /// AppBar
           appBarWithText(
+            context: context,
             height: height,
             title: "Week's Film Board",
             italic: FontStyle.italic,

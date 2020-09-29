@@ -1,3 +1,5 @@
+import 'package:changescenario/Provider/scaffoldKeyState.dart';
+import 'package:changescenario/components/appDrawer.dart';
 import 'package:changescenario/pages/profile/profile.dart';
 import 'package:changescenario/pages/scenario/scenario.dart';
 import 'package:changescenario/pages/together/together.dart';
@@ -8,6 +10,7 @@ import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
@@ -19,6 +22,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   /// Current Body Index
   int currentIndex = 0;
+
+  // ScaffoldKey
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   /// Body Widgets
   final List<Widget> bodyStack = [
@@ -95,7 +101,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      key: Provider.of<ScaffoldKeyState>(context, listen: false).scaffoldKey,
       backgroundColor: Colors.white,
+      drawer: appDrawer(context),
       body: IndexedStack(
         index: currentIndex,
         children: bodyStack,

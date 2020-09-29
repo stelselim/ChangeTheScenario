@@ -8,3 +8,12 @@ final backgroundDecoration = BoxDecoration(
     ],
   ),
 );
+
+final drawerBackgroundDecoration = BoxDecoration(
+  gradient: LinearGradient(
+    colors: [
+      Colors.indigo.shade300,
+      Colors.blue.shade300,
+    ],
+  ),
+);

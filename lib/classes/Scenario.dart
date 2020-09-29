@@ -75,4 +75,34 @@ class Scenario {
   String toString() {
     return 'Scenario(title: $title, film: $film, scriptChanger: $scriptChanger, postTime: $postTime, like: $like, dislike: $dislike, script: $script, writerUID: $writerUID, docid: $docid, likedUserUIDs: $likedUserUIDs, dislikedUserUIDs: $dislikedUserUIDs, comments: $comments)';
   }
+
+  Scenario copyWith({
+    String title,
+    String film,
+    String scriptChanger,
+    DateTime postTime,
+    int like,
+    int dislike,
+    String script,
+    String writerUID,
+    String docid,
+    List<String> likedUserUIDs,
+    List<String> dislikedUserUIDs,
+    List<ScenarioComment> comments,
+  }) {
+    return Scenario(
+      title: title ?? this.title,
+      film: film ?? this.film,
+      scriptChanger: scriptChanger ?? this.scriptChanger,
+      postTime: postTime ?? this.postTime,
+      like: like ?? this.like,
+      dislike: dislike ?? this.dislike,
+      script: script ?? this.script,
+      writerUID: writerUID ?? this.writerUID,
+      docid: docid ?? this.docid,
+      likedUserUIDs: likedUserUIDs ?? this.likedUserUIDs,
+      dislikedUserUIDs: dislikedUserUIDs ?? this.dislikedUserUIDs,
+      comments: comments ?? this.comments,
+    );
+  }
 }
