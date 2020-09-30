@@ -1,30 +1,49 @@
 import 'dart:convert';
+import 'dart:core';
 import 'package:flutter/material.dart';
 
 class FilmItem {
-  final String filmName;
-  final String releaseYear;
-  final num score;
-  final int watched;
-  final int unwatched;
-  final num imdbRating;
+  final String filmName; // Film Name
+  final String releaseYear; // Film Release Year
+  final List<String> likedUIDs; // Liked User uids
+  final List<String> dislikedUIDs; // Disliked User uids
+  final bool active; // activated or not
+  final num imdbRating; // Imdb rating
 
   FilmItem({
     @required this.filmName,
     @required this.releaseYear,
-    @required this.score,
-    @required this.watched,
-    @required this.unwatched,
+    @required this.active,
+    @required this.dislikedUIDs,
+    @required this.likedUIDs,
     @required this.imdbRating,
   });
+
+  FilmItem copyWith({
+    String filmName,
+    String releaseYear,
+    List<String> likedUIDs,
+    List<String> dislikedUIDs,
+    bool active,
+    num imdbRating,
+  }) {
+    return FilmItem(
+      filmName: filmName ?? this.filmName,
+      releaseYear: releaseYear ?? this.releaseYear,
+      likedUIDs: likedUIDs ?? this.likedUIDs,
+      dislikedUIDs: dislikedUIDs ?? this.dislikedUIDs,
+      active: active ?? this.active,
+      imdbRating: imdbRating ?? this.imdbRating,
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
       'filmName': filmName,
       'releaseYear': releaseYear,
-      'score': score,
-      'watched': watched,
-      'unwatched': unwatched,
+      'likedUIDs': likedUIDs,
+      'dislikedUIDs': dislikedUIDs,
+      'active': active,
       'imdbRating': imdbRating,
     };
   }
@@ -35,9 +54,9 @@ class FilmItem {
     return FilmItem(
       filmName: map['filmName'],
       releaseYear: map['releaseYear'],
-      score: map['score'],
-      watched: map['watched'],
-      unwatched: map['unwatched'],
+      likedUIDs: List<String>.from(map['likedUIDs']),
+      dislikedUIDs: List<String>.from(map['dislikedUIDs']),
+      active: map['active'],
       imdbRating: map['imdbRating'],
     );
   }
@@ -46,4 +65,12 @@ class FilmItem {
 
   factory FilmItem.fromJson(String source) =>
       FilmItem.fromMap(json.decode(source));
+
+  num toScore() {
+    int lenDislike = dislikedUIDs.length;
+    int lenLike = likedUIDs.length;
+    final num score = (lenLike * 3 - lenDislike);
+
+    return score.abs();
+  }
 }

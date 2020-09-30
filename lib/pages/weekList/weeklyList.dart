@@ -7,63 +7,15 @@ import 'package:changescenario/utility/setStatusBarColor.dart';
 import 'package:flutter/material.dart';
 
 /// Dummy Data
-final List<Map<String, dynamic>> filmList = [
-  {
-    'filmName': "Batman Rises",
-    'releaseYear': "2012",
-    'score': 33,
-    'watched': 122,
-    'unwatched': 67,
-    'imdbRating': 8.4,
-  },
-  {
-    'filmName': "The Dark Knight",
-    'releaseYear': "2008",
-    'score': 33,
-    'watched': 122,
-    'unwatched': 67,
-    'imdbRating': 8.4,
-  },
-  {
-    'filmName': "Batman Begins",
-    'releaseYear': "2004",
-    'score': 33,
-    'watched': 122,
-    'unwatched': 67,
-    'imdbRating': 8.4,
-  },
-  {
-    'filmName': "Batman Rises",
-    'releaseYear': "2012",
-    'score': 33,
-    'watched': 122,
-    'unwatched': 67,
-    'imdbRating': 8.4,
-  },
-  {
-    'filmName': "Batman Rises",
-    'releaseYear': "2012",
-    'score': 33,
-    'watched': 122,
-    'unwatched': 67,
-    'imdbRating': 8.4,
-  },
-  {
-    'filmName': "Batman Rises",
-    'releaseYear': "2012",
-    'score': 33,
-    'watched': 122,
-    'unwatched': 67,
-    'imdbRating': 8.4,
-  },
-  {
-    'filmName': "Batman Rises",
-    'releaseYear': "2012",
-    'score': 33,
-    'watched': 122,
-    'unwatched': 67,
-    'imdbRating': 8.4,
-  },
+final List<FilmItem> filmList = [
+  FilmItem(
+    active: true,
+    dislikedUIDs: [],
+    filmName: "Batman Begins",
+    imdbRating: 8.4,
+    likedUIDs: [],
+    releaseYear: "2008",
+  )
 ];
 
 class WeeklyList extends StatefulWidget {
@@ -121,7 +73,7 @@ class _WeeklyListState extends State<WeeklyList> {
                 final localMap = filmList.elementAt(index);
 
                 return FilmListTile(
-                  filmItem: FilmItem.fromMap(localMap),
+                  filmItem: FilmItem.fromMap(localMap.toMap()),
                   index: index,
                 );
               },

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "476448352982",
+    "firebase_url": "https://changescenario.firebaseio.com",
+    "project_id": "changescenario",
+    "storage_bucket": "changescenario.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:476448352982:android:c7b0fbcb2e24ef7fadb777",
+        "android_client_info": {
+          "package_name": "com.stel.changescenario"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "476448352982-1iep51s5ed0h9j2dkkamg86s8m9madvi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjSJvTJfrffRq3b-D3ICW3r3iKlQrTWbc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "476448352982-1iep51s5ed0h9j2dkkamg86s8m9madvi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "476448352982-ki0i574aikvrfnbggben0juvlie8p8hq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stel.changescenario"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

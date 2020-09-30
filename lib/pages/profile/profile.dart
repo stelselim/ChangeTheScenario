@@ -51,7 +51,7 @@ class ProfilePage extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.clip,
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 22,
                               fontWeight: FontWeight.w700,
                               color: Colors.blueGrey.shade900.withOpacity(0.99),
                             ),

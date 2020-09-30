@@ -3,9 +3,8 @@ import 'package:changescenario/classes/ScenarioComment.dart';
 import 'package:changescenario/components/appBarWithText.dart';
 import 'package:changescenario/components/scenario/postCard.dart';
 import 'package:changescenario/utility/setStatusBarColor.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// Dummy Data => Scenarios
 ///
@@ -21,19 +20,16 @@ final String script =
     "Spider-Man embarks on a mission to protect his loved ones when OsCorp, owned by his childhood friend Harry Osborn, unleashes a slew of genetically-modified villains against him. Osborn, unleashes a slew of genetically-modified villains against him. Osborn, unleashes a slew of genetically-modified villains against him.";
 final String writeDocID = "";
 final List<ScenarioComment> comments = []; // Create ScenarioComment Class
-final List<String> likedUserUIDs = [""];
+final List<String> likedUserUIDs = [];
 final List<String> dislikedUserUIDs = [];
 
 final Scenario scenario = Scenario(
   title: title,
   film: film,
   scriptChanger: scriptChanger,
-  postTime: postTime,
-  like: like,
-  dislike: dislike,
+  postTime: Timestamp.fromDate(postTime),
   script: script,
   writerUID: writeDocID,
-  docid: "",
   likedUserUIDs: likedUserUIDs,
   dislikedUserUIDs: dislikedUserUIDs,
   comments: comments,

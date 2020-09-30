@@ -1,30 +1,25 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:changescenario/classes/ScenarioComment.dart';
 
 class Scenario {
-  final String title;
-  final String film;
-  final String scriptChanger;
-  final DateTime postTime;
-  final int like;
-  final int dislike;
-  final String script;
-  final String writerUID;
-  final String docid;
-  final List<String> likedUserUIDs;
-  final List<String> dislikedUserUIDs;
-  final List<ScenarioComment> comments;
+  final String title; // Scenario Title
+  final String film; // Film Name
+  final String scriptChanger; // Writer Nickname
+  final Timestamp postTime; //
+  final String script; // New Scenario
+  final String writerUID; // writer Uid
+  final List<String> likedUserUIDs; // Liked Users Uids
+  final List<String> dislikedUserUIDs; // Disliked Users Uids
+  final List<ScenarioComment> comments; // Comments
   Scenario({
     @required this.title,
     @required this.film,
     @required this.scriptChanger,
     @required this.postTime,
-    @required this.like,
-    @required this.dislike,
     @required this.script,
     @required this.writerUID,
-    @required this.docid,
     @required this.likedUserUIDs,
     @required this.dislikedUserUIDs,
     @required this.comments,
@@ -36,14 +31,11 @@ class Scenario {
       'film': film,
       'scriptChanger': scriptChanger,
       'postTime': postTime,
-      'like': like,
-      'dislike': dislike,
       'script': script,
       'writerUID': writerUID,
-      'docid': docid,
       'likedUserUIDs': likedUserUIDs,
       'dislikedUserUIDs': dislikedUserUIDs,
-      'comments': comments,
+      'comments': comments?.map((x) => x.toMap())?.toList(),
     };
   }
 
@@ -54,15 +46,13 @@ class Scenario {
       title: map['title'],
       film: map['film'],
       scriptChanger: map['scriptChanger'],
-      postTime: map['postTime'], // from TimeStamp => DateTime
-      like: map['like'],
-      dislike: map['dislike'],
+      postTime: map['postTime'],
       script: map['script'],
       writerUID: map['writerUID'],
-      docid: map['docid'],
       likedUserUIDs: List<String>.from(map['likedUserUIDs']),
       dislikedUserUIDs: List<String>.from(map['dislikedUserUIDs']),
-      comments: List<ScenarioComment>.from(map['comments']),
+      comments: List<ScenarioComment>.from(
+          map['comments']?.map((x) => ScenarioComment.fromMap(x))),
     );
   }
 
@@ -71,21 +61,13 @@ class Scenario {
   factory Scenario.fromJson(String source) =>
       Scenario.fromMap(json.decode(source));
 
-  @override
-  String toString() {
-    return 'Scenario(title: $title, film: $film, scriptChanger: $scriptChanger, postTime: $postTime, like: $like, dislike: $dislike, script: $script, writerUID: $writerUID, docid: $docid, likedUserUIDs: $likedUserUIDs, dislikedUserUIDs: $dislikedUserUIDs, comments: $comments)';
-  }
-
   Scenario copyWith({
     String title,
     String film,
     String scriptChanger,
-    DateTime postTime,
-    int like,
-    int dislike,
+    Timestamp postTime,
     String script,
     String writerUID,
-    String docid,
     List<String> likedUserUIDs,
     List<String> dislikedUserUIDs,
     List<ScenarioComment> comments,
@@ -95,14 +77,16 @@ class Scenario {
       film: film ?? this.film,
       scriptChanger: scriptChanger ?? this.scriptChanger,
       postTime: postTime ?? this.postTime,
-      like: like ?? this.like,
-      dislike: dislike ?? this.dislike,
       script: script ?? this.script,
       writerUID: writerUID ?? this.writerUID,
-      docid: docid ?? this.docid,
       likedUserUIDs: likedUserUIDs ?? this.likedUserUIDs,
       dislikedUserUIDs: dislikedUserUIDs ?? this.dislikedUserUIDs,
       comments: comments ?? this.comments,
     );
+  }
+
+  @override
+  String toString() {
+    return 'Scenario(title: $title, film: $film, scriptChanger: $scriptChanger, postTime: $postTime, script: $script, writerUID: $writerUID, likedUserUIDs: $likedUserUIDs, dislikedUserUIDs: $dislikedUserUIDs, comments: $comments)';
   }
 }

@@ -17,6 +17,7 @@ Widget appBarWithText({
       leading: IconButton(
         icon: Icon(Icons.apps),
         onPressed: () {
+          /// Open Drawer
           Provider.of<ScaffoldKeyState>(context, listen: false)
               .scaffoldKey
               .currentState

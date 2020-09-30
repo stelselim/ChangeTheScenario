@@ -15,10 +15,8 @@ class FilmListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final String filmName = filmItem.filmName;
     final String releaseYear = filmItem.releaseYear;
-    final num score = filmItem.score;
-    final int watched = filmItem.watched;
-    final int unwatched = filmItem.unwatched;
     final num imdbRating = filmItem.imdbRating;
+    final score = filmItem.toScore();
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12),
@@ -54,7 +52,7 @@ class FilmListTile extends StatelessWidget {
                       onPressed: () {},
                     ),
                     Text(
-                      "$unwatched",
+                      "${filmItem.dislikedUIDs.length}",
                       style: TextStyle(fontSize: 14),
                     ),
                   ],
@@ -70,7 +68,7 @@ class FilmListTile extends StatelessWidget {
                       onPressed: () {},
                     ),
                     Text(
-                      "$watched",
+                      "${filmItem.likedUIDs.length}",
                       style: TextStyle(fontSize: 14),
                     ),
                   ],

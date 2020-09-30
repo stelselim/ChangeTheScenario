@@ -26,7 +26,7 @@ Widget appDrawer(BuildContext context) {
       decoration: drawerBackgroundDecoration,
       child: ListView(
         children: <Widget>[
-          /// Header
+          /// Header & App Icon
           Container(
             child: Column(
               children: <Widget>[
@@ -38,6 +38,7 @@ Widget appDrawer(BuildContext context) {
                     "Change Scenarios",
                     style: headerTextStyle,
                   ),
+                  // App Icon
                   trailing: CircleAvatar(
                     radius: 30,
                     backgroundColor: Colors.purple.shade600,
@@ -63,11 +64,11 @@ Widget appDrawer(BuildContext context) {
               child: ListTile(
                 onTap: () => Navigator.pop(context),
                 title: Text(
-                  "Anasayfa",
+                  "Bookmarks",
                   style: drawerCategoryTextStyle,
                 ),
                 trailing: Icon(
-                  FontAwesomeIcons.home,
+                  FontAwesomeIcons.solidBookmark,
                   color: drawerCategoryTextStyle.color,
                 ),
               ),
@@ -77,51 +78,6 @@ Widget appDrawer(BuildContext context) {
           SizedBox(
             height: 5,
           ),
-
-          // Rehber
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: ListTile(
-                onTap: () {
-                  Navigator.pushNamed(context, "Rehber");
-                  scaffoldKey.currentState.openEndDrawer();
-                },
-                title: Text(
-                  "Beslenme Rehberi",
-                  style: drawerCategoryTextStyle,
-                ),
-                trailing: Icon(
-                  Icons.library_books,
-                  color: drawerCategoryTextStyle.color,
-                ),
-              ),
-            ),
-          ),
-
-          SizedBox(height: 5),
-          // Calculators
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 7, 0),
-              child: ListTile(
-                onTap: () {
-                  Navigator.pushNamed(context, "CalculatorMain");
-                  scaffoldKey.currentState.openEndDrawer();
-                },
-                title: Text(
-                  "Hesaplayıcılar",
-                  style: drawerCategoryTextStyle,
-                ),
-                trailing: Icon(
-                  FontAwesomeIcons.calculator,
-                  color: drawerCategoryTextStyle.color,
-                ),
-              ),
-            ),
-          ),
-
-          SizedBox(height: 5),
 
           // Bize Sorun
           Container(
@@ -133,7 +89,7 @@ Widget appDrawer(BuildContext context) {
                   scaffoldKey.currentState.openEndDrawer();
                 },
                 title: Text(
-                  "Soru Cevap",
+                  "Contact",
                   style: drawerCategoryTextStyle,
                 ),
                 trailing: Icon(
@@ -155,7 +111,7 @@ Widget appDrawer(BuildContext context) {
                   scaffoldKey.currentState.openEndDrawer();
                 },
                 title: Text(
-                  "Hakkımızda",
+                  "About",
                   style: drawerCategoryTextStyle,
                 ),
                 trailing: Icon(

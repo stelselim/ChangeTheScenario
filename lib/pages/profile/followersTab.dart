@@ -1,13 +1,31 @@
+import 'package:changescenario/classes/Follower.dart';
+import 'package:changescenario/components/profile/followerListTile.dart';
 import 'package:flutter/material.dart';
+
+List<Follower> follower = [
+  Follower(uid: "", nickname: "stelselim"),
+  Follower(uid: "", nickname: "ibolas"),
+  Follower(uid: "", nickname: "ozzgeolcek"),
+  Follower(uid: "", nickname: "newVegasLat"),
+  Follower(uid: "", nickname: "dededesas"),
+];
 
 class FollowersTab extends StatelessWidget {
   const FollowersTab({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return ListView.builder(
+      itemCount: follower.length,
       padding: EdgeInsets.only(top: 10),
-      children: [],
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10),
+          child: followerListTile(
+            follower: follower.elementAt(index),
+          ),
+        );
+      },
     );
   }
 }

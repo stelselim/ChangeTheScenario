@@ -67,14 +67,14 @@ class ScenarioPostCard extends StatelessWidget {
 
     return Container(
       height: scenarioPostCardSize(context),
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
         elevation: 5,
         child: Padding(
-          padding: const EdgeInsets.all(7.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
               Expanded(
@@ -140,7 +140,7 @@ class ScenarioPostCard extends StatelessWidget {
                           style: usernameTextStyle,
                         ),
                         Text(
-                          " posted on ${formatDate(scenario.postTime)}",
+                          " posted on ${formatDate(scenario.postTime.toDate())}",
                           style: dateTextStyle,
                         ),
                       ],
@@ -221,7 +221,7 @@ class ScenarioPostCard extends StatelessWidget {
                               onPressed: () {},
                             ),
                             Text(
-                              "${scenario.dislike}",
+                              "${scenario.dislikedUserUIDs.length}",
                               style: likeDislikeTextStyle,
                             ),
                           ],
@@ -240,7 +240,7 @@ class ScenarioPostCard extends StatelessWidget {
                               onPressed: () {},
                             ),
                             Text(
-                              "${scenario.like}",
+                              "${scenario.likedUserUIDs.length}",
                               style: likeDislikeTextStyle,
                             ),
                           ],
