@@ -1,3 +1,4 @@
+import 'package:changescenario/pages/bookmarks.dart';
 import 'package:changescenario/pages/home.dart';
 import 'package:changescenario/pages/login/login.dart';
 import 'package:changescenario/pages/login/resetPassword.dart';
@@ -21,6 +22,8 @@ class RouteGenerator {
 
       case "/addScenario":
         return MaterialPageRoute(builder: (_) => ScenarioAddPage());
+      case "/bookmarks":
+        return MaterialPageRoute(builder: (_) => BookmarksPage());
 
       /// App
       case "/home":

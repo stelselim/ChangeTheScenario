@@ -19,6 +19,7 @@ Widget appDrawer(BuildContext context) {
     color: Colors.white.withOpacity(0.85),
     fontWeight: FontWeight.w500,
   );
+
   return Drawer(
     semanticLabel: "YanMenü",
     elevation: 12,
@@ -62,7 +63,7 @@ Widget appDrawer(BuildContext context) {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(8, 0, 9, 0),
               child: ListTile(
-                onTap: () => Navigator.pop(context),
+                onTap: () => Navigator.pushNamed(context, "/bookmarks"),
                 title: Text(
                   "Bookmarks",
                   style: drawerCategoryTextStyle,
@@ -75,52 +76,30 @@ Widget appDrawer(BuildContext context) {
             ),
           ),
 
-          SizedBox(
-            height: 5,
-          ),
+          // SizedBox(
+          //   height: 5,
+          // ),
 
-          // Bize Sorun
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: ListTile(
-                onTap: () {
-                  Navigator.pushNamed(context, "BizeSorun");
-                  scaffoldKey.currentState.openEndDrawer();
-                },
-                title: Text(
-                  "Contact",
-                  style: drawerCategoryTextStyle,
-                ),
-                trailing: Icon(
-                  FontAwesomeIcons.question,
-                  color: drawerCategoryTextStyle.color,
-                ),
-              ),
-            ),
-          ),
-
-          SizedBox(height: 5),
-          // About
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 7, 0),
-              child: ListTile(
-                onTap: () {
-                  Navigator.pushNamed(context, "AboutUs");
-                  scaffoldKey.currentState.openEndDrawer();
-                },
-                title: Text(
-                  "About",
-                  style: drawerCategoryTextStyle,
-                ),
-                trailing: Icon(
-                  FontAwesomeIcons.infoCircle,
-                  color: drawerCategoryTextStyle.color,
-                ),
-              ),
-            ),
-          ),
+          // // Bize Sorun
+          // Container(
+          //   child: Padding(
+          //     padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+          //     child: ListTile(
+          //       onTap: () {
+          //         Navigator.pushNamed(context, "BizeSorun");
+          //         scaffoldKey.currentState.openEndDrawer();
+          //       },
+          //       title: Text(
+          //         "Contact",
+          //         style: drawerCategoryTextStyle,
+          //       ),
+          //       trailing: Icon(
+          //         FontAwesomeIcons.question,
+          //         color: drawerCategoryTextStyle.color,
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     ),

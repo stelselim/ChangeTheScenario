@@ -1,3 +1,4 @@
+import 'package:changescenario/Provider/UserState.dart';
 import 'package:changescenario/Provider/scaffoldKeyState.dart';
 import 'package:changescenario/navigation/route_generator.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,6 +19,7 @@ class MainApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<ScaffoldKeyState>(create: (context) => ScaffoldKeyState()),
+        Provider<UserState>(create: (context) => UserState()),
       ],
       child: MaterialApp(
         title: "Change The Scenario",

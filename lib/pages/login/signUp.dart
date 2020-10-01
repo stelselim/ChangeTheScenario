@@ -271,7 +271,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     direction: Axis.horizontal,
                     children: [
                       Text(
-                        "Send Email!",
+                        "Sign UP!",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
