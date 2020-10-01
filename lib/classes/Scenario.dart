@@ -7,7 +7,7 @@ class Scenario {
   final String title; // Scenario Title
   final String film; // Film Name
   final String scriptChanger; // Writer Nickname
-  final Timestamp postTime; //
+  final Timestamp postTime; // Post Date
   final String script; // New Scenario
   final String writerUID; // writer Uid
   final List<String> likedUserUIDs; // Liked Users Uids

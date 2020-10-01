@@ -273,7 +273,7 @@ class _LoginPageState extends State<LoginPage> {
                       } catch (e) {}
                     } else {
                       Fluttertoast.showToast(
-                          msg: "Checked Your Email or Password");
+                          msg: "Check Your Email or Password");
                     }
                   },
                 ),

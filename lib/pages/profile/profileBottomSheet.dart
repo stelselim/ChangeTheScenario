@@ -46,8 +46,10 @@ void showProfileBottomSheet(BuildContext context) async {
                                     Form(
                                       key: textKey,
                                       child: TextFormField(
+                                        keyboardType: TextInputType.text,
                                         autocorrect: false,
                                         onChanged: (val) => newnickname = val,
+                                        maxLength: 20,
                                         validator: (val) {
                                           if (val.length < 5)
                                             return "Least 6 Characters";
@@ -55,9 +57,9 @@ void showProfileBottomSheet(BuildContext context) async {
                                             return "Invalid Nickname";
                                           return null;
                                         },
-                                        decoration: fieldInputDecoration(
-                                          Icon(Icons.person),
+                                        decoration: inputDecoration(
                                           "New Nickname",
+                                          icon: Icon(Icons.person),
                                         ),
                                       ),
                                     ),
@@ -137,6 +139,7 @@ void showProfileBottomSheet(BuildContext context) async {
                                       child: TextFormField(
                                         maxLines: 3,
                                         maxLength: 150,
+                                        keyboardType: TextInputType.text,
                                         autocorrect: false,
                                         initialValue: Provider.of<UserState>(
                                                 context,
@@ -150,10 +153,9 @@ void showProfileBottomSheet(BuildContext context) async {
                                           if (val == null) return "Invalid Bio";
                                           return null;
                                         },
-                                        decoration: fieldInputDecoration(
-                                          Icon(Icons.info_outline),
-                                          "New Bio",
-                                        ),
+                                        decoration: inputDecoration("New Bio",
+                                            icon: Icon(Icons.info_outline),
+                                            counter: null),
                                       ),
                                     ),
                                     ButtonBar(

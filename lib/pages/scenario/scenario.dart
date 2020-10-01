@@ -1,39 +1,12 @@
+import 'package:changescenario/Firebase/constants/collectionAndDocs.dart';
+import 'package:changescenario/Provider/UserState.dart';
 import 'package:changescenario/classes/Scenario.dart';
-import 'package:changescenario/classes/ScenarioComment.dart';
 import 'package:changescenario/components/appBarWithText.dart';
 import 'package:changescenario/components/scenario/postCard.dart';
 import 'package:changescenario/utility/setStatusBarColor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-/// Dummy Data => Scenarios
-///
-final String title = "Spiderman should not end like that!";
-final String film = "The Amazing Spiderman 2";
-final String scriptChanger = "Stelselim";
-final DateTime postTime = DateTime(2020, 10, 2, 5, 17, 30);
-// final Duration postTime =
-//     DateTime(2020, 10, 2, 5, 17, 30).difference(DateTime.now());
-final int like = 22;
-final int dislike = 14;
-final String script =
-    "Spider-Man embarks on a mission to protect his loved ones when OsCorp, owned by his childhood friend Harry Osborn, unleashes a slew of genetically-modified villains against him. Osborn, unleashes a slew of genetically-modified villains against him. Osborn, unleashes a slew of genetically-modified villains against him.";
-final String writeDocID = "";
-final List<ScenarioComment> comments = []; // Create ScenarioComment Class
-final List<String> likedUserUIDs = [];
-final List<String> dislikedUserUIDs = [];
-
-final Scenario scenario = Scenario(
-  title: title,
-  film: film,
-  scriptChanger: scriptChanger,
-  postTime: Timestamp.fromDate(postTime),
-  script: script,
-  writerUID: writeDocID,
-  likedUserUIDs: likedUserUIDs,
-  dislikedUserUIDs: dislikedUserUIDs,
-  comments: comments,
-);
+import 'package:provider/provider.dart';
 
 class ScenarioPage extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -46,11 +19,24 @@ class ScenarioPage extends StatefulWidget {
 class _ScenarioPageState extends State<ScenarioPage> {
   final ScrollController scrollController = ScrollController();
 
+  /// Scenario Page Stream
+  final scenarioPageStream = FirebaseFirestore.instance
+      .collection(scenariosColletion)
+      .orderBy("postTime", descending: true)
+      .limit(20)
+      .get()
+      .asStream();
+
   @override
   void initState() {
     super.initState();
     // Should Listen Scroll Controller
     // scrollController.
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -75,17 +61,39 @@ class _ScenarioPageState extends State<ScenarioPage> {
             title: "Change Scenarios",
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: 5,
-              shrinkWrap: true,
-              padding: EdgeInsets.only(top: 5),
-              physics: ClampingScrollPhysics(),
-              controller: scrollController,
-              itemBuilder: (context, index) {
-                /// Scenario Post Cards
-                return ScenarioPostCard(
-                  scenario: scenario,
-                  userUid: "",
+            child: StreamBuilder<QuerySnapshot>(
+              stream: scenarioPageStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text("An Error Occured"));
+                }
+
+                if (snapshot.data == null) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                return ListView.builder(
+                  itemCount: snapshot.data.docs.length,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.only(top: 5, bottom: 60),
+                  physics: ClampingScrollPhysics(),
+                  controller: scrollController,
+                  itemBuilder: (context, index) {
+                    /// Local Scenario
+                    final localscenario = Scenario.fromMap(
+                      snapshot.data.docs.elementAt(index).data(),
+                    );
+                    final userUid =
+                        Provider.of<UserState>(context, listen: false).user.uid;
+
+                    /// Scenario Post Cards
+                    return ScenarioPostCard(
+                      scenario: localscenario,
+                      userUid: userUid,
+                    );
+                  },
                 );
               },
             ),

@@ -1,4 +1,5 @@
 import 'package:changescenario/styles/color/backgroundDecoration.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -90,10 +91,19 @@ class ResetPasswordPage extends StatelessWidget {
                   ],
                 ),
               ),
-              onTap: () {
+              onTap: () async {
                 print(email);
                 if (email != "" && email.contains('@')) {
-                  Navigator.pushReplacementNamed(context, "/");
+                  try {
+                    await FirebaseAuth.instance
+                        .sendPasswordResetEmail(email: email);
+                    Navigator.pushReplacementNamed(context, "/");
+                    Fluttertoast.showToast(msg: "Password Reset Email Sent");
+                  } catch (e) {
+                    Fluttertoast.showToast(
+                        msg: "Not Found An Account with This Email");
+                    print(e);
+                  }
                 } else {
                   Fluttertoast.showToast(
                       msg: "Please Enter Valid Email",
