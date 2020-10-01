@@ -36,7 +36,8 @@ final Scenario scenario = Scenario(
 );
 
 class ScenarioPage extends StatefulWidget {
-  const ScenarioPage({Key key}) : super(key: key);
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  const ScenarioPage({Key key, @required this.scaffoldKey}) : super(key: key);
 
   @override
   _ScenarioPageState createState() => _ScenarioPageState();
@@ -68,6 +69,7 @@ class _ScenarioPageState extends State<ScenarioPage> {
       child: Column(
         children: [
           appBarWithText(
+            scaffoldKey: widget.scaffoldKey,
             height: height,
             context: context,
             title: "Change Scenarios",

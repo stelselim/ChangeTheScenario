@@ -2,9 +2,9 @@ import 'package:changescenario/classes/User.dart';
 import 'package:flutter/material.dart';
 
 class UserState with ChangeNotifier {
-  User user;
+  AppUser user;
 
-  setUser(User updatedUser) {
+  setUser(AppUser updatedUser) {
     if (user == updatedUser) return;
 
     user = updatedUser;

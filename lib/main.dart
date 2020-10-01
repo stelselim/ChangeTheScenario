@@ -1,9 +1,9 @@
-import 'package:changescenario/Provider/UserState.dart';
-import 'package:changescenario/Provider/scaffoldKeyState.dart';
 import 'package:changescenario/navigation/route_generator.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'Provider/UserState.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,14 +18,14 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<ScaffoldKeyState>(create: (context) => ScaffoldKeyState()),
-        Provider<UserState>(create: (context) => UserState()),
+        ChangeNotifierProvider<UserState>(
+          create: (context) => UserState(),
+        ),
       ],
       child: MaterialApp(
         title: "Change The Scenario",
         debugShowCheckedModeBanner: false,
-        initialRoute: "/home",
-        // initialRoute: "/",
+        initialRoute: "/",
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );

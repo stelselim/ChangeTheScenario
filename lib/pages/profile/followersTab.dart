@@ -1,20 +1,16 @@
-import 'package:changescenario/classes/Follower.dart';
+import 'package:changescenario/Provider/UserState.dart';
 import 'package:changescenario/components/profile/followerListTile.dart';
 import 'package:flutter/material.dart';
-
-List<Follower> follower = [
-  Follower(uid: "", nickname: "stelselim"),
-  Follower(uid: "", nickname: "ibolas"),
-  Follower(uid: "", nickname: "ozzgeolcek"),
-  Follower(uid: "", nickname: "newVegasLat"),
-  Follower(uid: "", nickname: "dededesas"),
-];
+import 'package:provider/provider.dart';
 
 class FollowersTab extends StatelessWidget {
   const FollowersTab({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final follower =
+        Provider.of<UserState>(context, listen: false).user.followers;
+
     return ListView.builder(
       itemCount: follower.length,
       padding: EdgeInsets.only(top: 10),

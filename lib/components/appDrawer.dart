@@ -1,13 +1,9 @@
-import 'package:changescenario/Provider/scaffoldKeyState.dart';
 import 'package:changescenario/styles/color/backgroundDecoration.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 Widget appDrawer(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
-  final scaffoldKey =
-      Provider.of<ScaffoldKeyState>(context, listen: false).scaffoldKey;
 
   var headerTextStyle = TextStyle(
     color: Colors.white,

@@ -1,14 +1,16 @@
+import 'package:changescenario/Provider/UserState.dart';
+import 'package:changescenario/classes/User.dart';
 import 'package:changescenario/components/profile/topBackground.dart';
 import 'package:changescenario/pages/profile/followersTab.dart';
 import 'package:changescenario/pages/profile/followingTab.dart';
 import 'package:changescenario/pages/profile/postTab.dart';
+import 'package:changescenario/pages/profile/profileBottomSheet.dart';
 import 'package:flutter/material.dart';
-
-final nickname = "Stelselim";
-final myBio = "My bio is not enough to get know me well";
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key key}) : super(key: key);
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  const ProfilePage({Key key, @required this.scaffoldKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class ProfilePage extends StatelessWidget {
           initialIndex: 0,
           child: Column(
             children: [
-              /// Circle Avatar & Nickname-Bio
+              /// Circle Avatar & Nickname-Bio & Edit Button
               /// Expanded 10
               Expanded(
                 flex: 10,
@@ -32,47 +34,65 @@ class ProfilePage extends StatelessWidget {
                       Expanded(
                         flex: 2,
                         child: Container(
-                          child: CircleAvatar(
-                            child: Text(
-                              "${nickname.substring(0, 2).toUpperCase()}",
-                              textScaleFactor: 2.5,
+                          child: Consumer<UserState>(
+                            builder: (context, state, _) => CircleAvatar(
+                              child: Text(
+                                "${state.user.nickname.substring(0, 2).toUpperCase()}",
+                                textScaleFactor: 2.5,
+                              ),
+                              minRadius: 30,
+                              maxRadius: 40,
                             ),
-                            minRadius: 30,
-                            maxRadius: 40,
                           ),
                         ),
                       ),
                       // Nickname
                       Expanded(
                         flex: 5,
-                        child: ListTile(
-                          title: Text(
-                            "$nickname",
-                            maxLines: 1,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.blueGrey.shade900.withOpacity(0.99),
+                        child: Consumer<UserState>(
+                          builder: (context, state, _) => ListTile(
+                            title: Text(
+                              "${state.user.nickname}",
+                              maxLines: 1,
+                              overflow: TextOverflow.clip,
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                                color:
+                                    Colors.blueGrey.shade900.withOpacity(0.99),
+                              ),
                             ),
-                          ),
-                          subtitle: Text(
-                            "$myBio",
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
+                            subtitle: Text(
+                              "${state.user.bio}",
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
                       ),
+
+                      /// Show Profile Edit Bottom Sheet
+                      GestureDetector(
+                        onTap: () => showProfileBottomSheet(context),
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
               ),
 
               /// Expanded 5
+              /// Post & Follower / Following
               Expanded(
                 flex: 5,
                 child: Container(
@@ -93,38 +113,38 @@ class ProfilePage extends StatelessWidget {
                         child: RichText(
                           text: TextSpan(
                             children: [
-                              TextSpan(
-                                text: '22',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(text: ' Posts'),
+                              TextSpan(text: 'Your Posts'),
                             ],
                           ),
                         ),
                       ),
                       Tab(
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: '33',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(text: ' Following'),
-                            ],
+                        child: Consumer<UserState>(
+                          builder: (context, state, _) => RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: state.user.following.length.toString(),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(text: ' Following'),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                       Tab(
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: '33',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(text: ' Followers'),
-                            ],
+                        child: Consumer<UserState>(
+                          builder: (context, state, _) => RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: state.user.followers.length.toString(),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(text: ' Followers'),
+                              ],
+                            ),
                           ),
                         ),
                       ),

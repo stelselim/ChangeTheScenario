@@ -1,18 +1,19 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:changescenario/classes/Follower.dart';
 
-class User {
+class AppUser {
   final String nickname;
   final String uid;
   final String email;
   final String bio;
-  final DateTime registerDate;
+  final Timestamp registerDate;
   final List<String> likedFilms;
   final List<String> dislikedFilms;
   final List<Follower> followers;
   final List<Follower> following;
-  User({
+  AppUser({
     @required this.followers,
     @required this.following,
     @required this.nickname,
@@ -24,18 +25,18 @@ class User {
     @required this.dislikedFilms,
   });
 
-  User copyWith({
+  AppUser copyWith({
     String nickname,
     String uid,
     String email,
     String bio,
-    DateTime registerDate,
+    Timestamp registerDate,
     List<String> likedFilms,
     List<String> dislikedFilms,
     List<Follower> followers,
     List<Follower> following,
   }) {
-    return User(
+    return AppUser(
       nickname: nickname ?? this.nickname,
       uid: uid ?? this.uid,
       email: email ?? this.email,
@@ -54,7 +55,7 @@ class User {
       'uid': uid,
       'email': email,
       'bio': bio,
-      'registerDate': registerDate?.millisecondsSinceEpoch,
+      'registerDate': registerDate,
       'likedFilms': likedFilms,
       'dislikedFilms': dislikedFilms,
       'followers': followers?.map((x) => x?.toMap())?.toList(),
@@ -62,15 +63,15 @@ class User {
     };
   }
 
-  factory User.fromMap(Map<String, dynamic> map) {
+  factory AppUser.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
 
-    return User(
+    return AppUser(
       nickname: map['nickname'],
       uid: map['uid'],
       email: map['email'],
       bio: map['bio'],
-      registerDate: DateTime.fromMillisecondsSinceEpoch(map['registerDate']),
+      registerDate: map['registerDate'],
       likedFilms: List<String>.from(map['likedFilms']),
       dislikedFilms: List<String>.from(map['dislikedFilms']),
       followers: List<Follower>.from(
@@ -82,10 +83,11 @@ class User {
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) => User.fromMap(json.decode(source));
+  factory AppUser.fromJson(String source) =>
+      AppUser.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'User(nickname: $nickname, uid: $uid, email: $email, bio: $bio, registerDate: $registerDate, likedFilms: $likedFilms, dislikedFilms: $dislikedFilms, followers: $followers, following: $following)';
+    return 'AppUser(nickname: $nickname, uid: $uid, email: $email, bio: $bio, registerDate: $registerDate, likedFilms: $likedFilms, dislikedFilms: $dislikedFilms, followers: $followers, following: $following)';
   }
 }

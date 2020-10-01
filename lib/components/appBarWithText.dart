@@ -1,4 +1,3 @@
-import 'package:changescenario/Provider/scaffoldKeyState.dart';
 import 'package:changescenario/styles/color/colors.dart';
 import 'package:changescenario/styles/textStyles/textStyles.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ Widget appBarWithText({
   @required num height,
   @required String title,
   @required BuildContext context,
+  @required GlobalKey<ScaffoldState> scaffoldKey,
   FontStyle italic = FontStyle.normal,
   Color textColor,
   Widget trailingWidget,
@@ -18,10 +18,7 @@ Widget appBarWithText({
         icon: Icon(Icons.apps),
         onPressed: () {
           /// Open Drawer
-          Provider.of<ScaffoldKeyState>(context, listen: false)
-              .scaffoldKey
-              .currentState
-              .openDrawer();
+          scaffoldKey.currentState.openDrawer();
         },
       ),
       title: Text(

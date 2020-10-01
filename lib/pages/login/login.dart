@@ -1,10 +1,56 @@
+import 'package:changescenario/Firebase/auth/userOperations.dart';
+import 'package:changescenario/Firebase/constants/collectionAndDocs.dart';
+import 'package:changescenario/Provider/UserState.dart';
+import 'package:changescenario/classes/User.dart';
 import 'package:changescenario/styles/color/backgroundDecoration.dart';
 import 'package:changescenario/utility/setStatusBarColor.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  ///AutoLogin
+  bool autoLogin = false;
+
+  String email = ""; // Login Email
+  String password = ""; // Login Password
+
+  bool isCurrentUserNull() {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> loginFunction(BuildContext context) async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) return;
+    final userDoc = await FirebaseFirestore.instance
+        .collection(userColletion)
+        .doc(currentUser.uid)
+        .get();
+    Provider.of<UserState>(context, listen: false)
+        .setUser(AppUser.fromMap(userDoc.data()));
+    Navigator.pushReplacementNamed(context, "/home");
+  }
+
+  @override
+  void initState() {
+    autoLogin = isCurrentUserNull();
+    if (autoLogin) loginFunction(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +59,6 @@ class LoginPage extends StatelessWidget {
     final topSpaceRatio = 0.11;
     final headerFormSpaceRatio = 0.08;
     final formButtonSpaceRatio = 0.035;
-
-    ///AutoLogin
-    bool autoLogin = false;
-
-    String email = ""; // Login Email
-    String password = ""; // Login Password
 
     /// Light Status Color
     setStatusBarColorDark();
@@ -224,9 +264,13 @@ class LoginPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  onTap: () {
+                  onTap: () async {
                     if (email != "" && email.contains('@') && password != "") {
-                      Navigator.pushReplacementNamed(context, "/home");
+                      try {
+                        await signInWithEmail(email, password);
+                        await loginFunction(context);
+                        Fluttertoast.showToast(msg: "Logged In!");
+                      } catch (e) {}
                     } else {
                       Fluttertoast.showToast(
                           msg: "Checked Your Email or Password");

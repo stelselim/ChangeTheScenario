@@ -1,4 +1,4 @@
-import 'package:changescenario/Provider/scaffoldKeyState.dart';
+import 'package:changescenario/Provider/UserState.dart';
 import 'package:changescenario/components/appDrawer.dart';
 import 'package:changescenario/pages/profile/profile.dart';
 import 'package:changescenario/pages/scenario/scenario.dart';
@@ -8,8 +8,6 @@ import 'package:changescenario/styles/color/colors.dart';
 import 'package:changescenario/utility/setStatusBarColor.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -25,14 +23,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   // ScaffoldKey
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  /// Body Widgets
-  final List<Widget> bodyStack = [
-    ScenarioPage(),
-    WeeklyList(),
-    TogetherPage(),
-    ProfilePage(),
-  ];
 
   /// Floating Action Button Animation
   AnimationController _animationController;
@@ -95,13 +85,29 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    /// Body Widgets
+    final List<Widget> bodyStack = [
+      ScenarioPage(
+        scaffoldKey: scaffoldKey,
+      ),
+      WeeklyList(
+        scaffoldKey: scaffoldKey,
+      ),
+      TogetherPage(
+        scaffoldKey: scaffoldKey,
+      ),
+      ProfilePage(
+        scaffoldKey: scaffoldKey,
+      ),
+    ];
+
     _animationController.repeat(reverse: true);
 
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      key: Provider.of<ScaffoldKeyState>(context, listen: false).scaffoldKey,
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       drawer: appDrawer(context),
       body: IndexedStack(

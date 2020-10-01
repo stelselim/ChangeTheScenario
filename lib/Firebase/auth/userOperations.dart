@@ -10,7 +10,7 @@ Future sendPasswordReset(String email) async {
   await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
 }
 
-Future<User> signUpWithEmail(String email, String password) async {
+Future<User> registerUserWithEmail(String email, String password) async {
   final user = await FirebaseAuth.instance
       .createUserWithEmailAndPassword(email: email, password: password);
   return user.user;

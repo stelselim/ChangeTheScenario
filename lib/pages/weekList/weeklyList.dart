@@ -19,7 +19,9 @@ final List<FilmItem> filmList = [
 ];
 
 class WeeklyList extends StatefulWidget {
-  const WeeklyList({Key key}) : super(key: key);
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
+  const WeeklyList({Key key, @required this.scaffoldKey}) : super(key: key);
 
   @override
   _WeeklyListState createState() => _WeeklyListState();
@@ -43,6 +45,7 @@ class _WeeklyListState extends State<WeeklyList> {
         children: [
           /// AppBar
           appBarWithText(
+            scaffoldKey: widget.scaffoldKey,
             context: context,
             height: height,
             title: "Week's Film Board",

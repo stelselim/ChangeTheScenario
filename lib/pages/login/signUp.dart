@@ -1,5 +1,8 @@
+import 'package:changescenario/Firebase/database/createUser.dart';
+import 'package:changescenario/classes/User.dart';
 import 'package:changescenario/constant/termsOfService.dart';
 import 'package:changescenario/styles/color/backgroundDecoration.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -280,7 +283,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ],
                   ),
                 ),
-                onTap: () {
+                onTap: () async {
                   // Must be true
                   if (!checkBoxVal) {
                     Fluttertoast.showToast(
@@ -289,12 +292,31 @@ class _SignUpPageState extends State<SignUpPage> {
                   }
                   if (registerKey.currentState.validate()) {
                     registerKey.currentState.save();
-                    Fluttertoast.showToast(msg: "Welcome To The Community!");
-                    print("Succesfull");
-                    print("Nick: " + nickname);
-                    print("Email: " + email);
-                    print("Pass: " + password);
-                    Navigator.of(context).pushReplacementNamed("/");
+
+                    try {
+                      final AppUser newUser = AppUser(
+                        bio: "",
+                        dislikedFilms: [],
+                        likedFilms: [],
+                        email: email,
+                        followers: [],
+                        following: [],
+                        nickname: nickname,
+                        uid: "",
+                        registerDate: Timestamp.now(),
+                      );
+
+                      await registerAndCreateUserDoc(
+                        newUser: newUser,
+                        email: email,
+                        password: password,
+                      );
+                      Fluttertoast.showToast(msg: "Welcome To The Community!");
+                      Navigator.of(context).pushReplacementNamed("/");
+                    } catch (e) {
+                      print(e);
+                      Fluttertoast.showToast(msg: "Registeration Failed");
+                    }
                   }
                 },
               ),

@@ -1,3 +1,3 @@
 const scenariosColletion = "Scenarious";
-const user = "User";
+const userColletion = "User";
 const filmCollection = "Films";
