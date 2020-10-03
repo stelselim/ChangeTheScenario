@@ -1,7 +1,11 @@
+import 'package:changescenario/Firebase/constants/collectionAndDocs.dart';
 import 'package:changescenario/classes/Scenario.dart';
 import 'package:changescenario/classes/ScenarioComment.dart';
 import 'package:changescenario/constant/cardSizes.dart';
 import 'package:changescenario/pages/scenario/scenario.dart';
+import 'package:changescenario/utility/bookmarkFunctions.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,13 +15,17 @@ class ScenarioPostCard extends StatelessWidget {
   const ScenarioPostCard({
     Key key,
     @required this.scenario,
+    @required this.documentReference,
     @required this.userUid,
+    @required this.isFavorited,
   }) : super(key: key);
 
   String formatDate(DateTime date) => new DateFormat("d MMM yyyy").format(date);
 
   final Scenario scenario;
+  final DocumentReference documentReference;
   final String userUid; // Current user uid for Like
+  final bool isFavorited;
 
   static final titleTextStyle = TextStyle(
     color: Colors.black,
@@ -30,6 +38,7 @@ class ScenarioPostCard extends StatelessWidget {
     fontWeight: FontWeight.w700,
     fontSize: 14,
   );
+  static final iconcolor = Colors.blue.shade100;
   static final dateTextStyle = TextStyle(
     color: Colors.black45,
     fontWeight: FontWeight.w500,
@@ -95,22 +104,117 @@ class ScenarioPostCard extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                          child: GestureDetector(
-                            child: Icon(Icons.more_vert),
-                            onTap: () {
-                              /// Owner
-                              if (isWriter) {
-                                print("owner");
-                              } else {
-                                print("not owner");
-                              }
-                              Fluttertoast.showToast(msg: "Report or Settings");
-                            },
-                          ),
-                        ),
+                        flex: 2,
+                        child:
+
+                            /// Report Button if not post yours
+                            /// Else Delete Button
+                            userUid != scenario.writerUID
+                                ? DropdownButton(
+                                    isExpanded: true,
+                                    onChanged: (val) {},
+                                    underline: Container(),
+                                    icon: Icon(Icons.more_vert),
+                                    items: [
+                                      DropdownMenuItem(
+                                        value: "Report",
+                                        child: Text(
+                                          "Report",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        onTap: () async {
+                                          try {
+                                            Fluttertoast.showToast(
+                                                msg: "Reported This Post");
+                                            await FirebaseFirestore.instance
+                                                .collection(reportsCollection)
+                                                .add(scenario.toMap());
+                                          } catch (e) {
+                                            print(e);
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                : DropdownButton(
+                                    isExpanded: true,
+                                    onChanged: (val) {},
+                                    underline: Container(),
+                                    icon: Icon(Icons.more_vert),
+                                    items: [
+                                      DropdownMenuItem(
+                                        value: "Delete",
+                                        child: Text(
+                                          "Delete",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        onTap: () async {
+                                          try {
+                                            await Future.delayed(
+                                              Duration(milliseconds: 500),
+                                            );
+                                            await showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return Dialog(
+                                                    child: Container(
+                                                      height: 120,
+                                                      width: 500,
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: [
+                                                          ListTile(
+                                                            trailing: Icon(
+                                                                Icons.delete),
+                                                            title: Text(
+                                                                "This post is going to be deleted, are you sure?"),
+                                                          ),
+                                                          ButtonBar(
+                                                            children: [
+                                                              FlatButton(
+                                                                  child: Text(
+                                                                      "Cancel"),
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  }),
+                                                              RaisedButton(
+                                                                child: Text(
+                                                                    "Delete"),
+                                                                onPressed:
+                                                                    () async {
+                                                                  try {
+                                                                    await documentReference
+                                                                        .delete();
+
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                    Fluttertoast
+                                                                        .showToast(
+                                                                            msg:
+                                                                                "Post Deleted, Refresh Page!");
+                                                                  } catch (e) {
+                                                                    print(e);
+                                                                  }
+                                                                },
+                                                              )
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                });
+                                          } catch (e) {
+                                            print(e);
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  ),
                       )
                     ],
                   ),
@@ -182,22 +286,40 @@ class ScenarioPostCard extends StatelessWidget {
                       children: [
                         IconButton(
                           icon: Icon(
-                            Icons.bookmark,
-                            color: Colors.blue.shade200,
+                            isFavorited
+                                ? Icons.bookmark
+                                : Icons.bookmark_border,
+                            color: Colors.indigo.shade600,
                           ),
-                          onPressed: () {},
+                          onPressed: () async {
+                            try {
+                              if (!isFavorited) {
+                                await addToScenarioToBookMark(
+                                    documentReference.id);
+                                Fluttertoast.showToast(
+                                    msg: "Added To Bookmarks");
+                              } else {
+                                await deleteFromScenarioToBookMark(
+                                    documentReference.id);
+                                Fluttertoast.showToast(
+                                    msg: "Deleted from Bookmarks");
+                              }
+                            } catch (e) {
+                              print(e);
+                            }
+                          },
                         ),
                         IconButton(
                           icon: Icon(
                             Icons.comment,
-                            color: Colors.blue.shade200,
+                            color: Colors.red.shade500,
                           ),
                           onPressed: () {},
                         ),
                         IconButton(
                           icon: Icon(
                             Icons.share,
-                            color: Colors.blue.shade200,
+                            color: Colors.green.shade600,
                           ),
                           onPressed: () {},
                         ),
@@ -237,7 +359,9 @@ class ScenarioPostCard extends StatelessWidget {
                                     ? Colors.blue.shade600
                                     : Colors.blue.shade100,
                               ),
-                              onPressed: () {},
+                              onPressed: () async {
+                                if (likedPost) {}
+                              },
                             ),
                             Text(
                               "${scenario.likedUserUIDs.length}",

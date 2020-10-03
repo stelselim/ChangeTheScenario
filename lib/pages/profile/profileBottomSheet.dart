@@ -25,7 +25,7 @@ void showProfileBottomSheet(BuildContext context) async {
                   Consumer<UserState>(
                     builder: (context, state, _) => ListTile(
                       title: Text(state.user.nickname),
-                      trailing: Icon(Icons.edit),
+                      trailing: Icon(Icons.perm_identity),
                       onTap: () async {
                         final textKey = GlobalKey<FormState>();
                         String newnickname = "";
@@ -113,7 +113,7 @@ void showProfileBottomSheet(BuildContext context) async {
                             ? state.user.bio
                             : "Add a bio",
                       ),
-                      trailing: Icon(Icons.edit),
+                      trailing: Icon(Icons.info_outline),
                       onTap: () async {
                         final textKey = GlobalKey<FormState>();
                         String newBio =

@@ -3,6 +3,7 @@ import 'package:changescenario/Provider/UserState.dart';
 import 'package:changescenario/classes/Scenario.dart';
 import 'package:changescenario/components/scenario/postCard.dart';
 import 'package:changescenario/pages/scenario/scenario.dart';
+import 'package:changescenario/utility/bookmarkFunctions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,14 +44,31 @@ class ProfilePostTab extends StatelessWidget {
               final localscenario = Scenario.fromMap(
                 snapshot.data.docs.elementAt(index).data(),
               );
+              final docRef = snapshot.data.docs.elementAt(index).reference;
               final userUid =
                   Provider.of<UserState>(context, listen: false).user.uid;
 
               /// Scenario Post Cards
-              return ScenarioPostCard(
-                scenario: localscenario,
-                userUid: userUid,
-              );
+              /// Scenario Post Cards
+              return FutureBuilder<bool>(
+                  future: isFavoritedPost(docRef.id),
+                  builder: (context, isFav) {
+                    if (isFav.hasError) {
+                      // print("Problem");
+                      return Container();
+                    }
+                    if (isFav.data == null) {
+                      // print("Problem Data NUll");
+                      return Container();
+                    }
+
+                    return ScenarioPostCard(
+                      isFavorited: isFav.data,
+                      documentReference: docRef,
+                      scenario: localscenario,
+                      userUid: userUid,
+                    );
+                  });
             },
           );
         });

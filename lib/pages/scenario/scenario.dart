@@ -3,6 +3,7 @@ import 'package:changescenario/Provider/UserState.dart';
 import 'package:changescenario/classes/Scenario.dart';
 import 'package:changescenario/components/appBarWithText.dart';
 import 'package:changescenario/components/scenario/postCard.dart';
+import 'package:changescenario/utility/bookmarkFunctions.dart';
 import 'package:changescenario/utility/setStatusBarColor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -85,13 +86,30 @@ class _ScenarioPageState extends State<ScenarioPage> {
                     final localscenario = Scenario.fromMap(
                       snapshot.data.docs.elementAt(index).data(),
                     );
+                    final docSnapshot = snapshot.data.docs.elementAt(index);
                     final userUid =
                         Provider.of<UserState>(context, listen: false).user.uid;
 
                     /// Scenario Post Cards
-                    return ScenarioPostCard(
-                      scenario: localscenario,
-                      userUid: userUid,
+                    return FutureBuilder<bool>(
+                      future: isFavoritedPost(docSnapshot.id),
+                      builder: (context, isFav) {
+                        if (isFav.hasError) {
+                          // print("Problem");
+                          return Container();
+                        }
+                        if (isFav.data == null) {
+                          // print("Problem Data NUll");
+                          return Container();
+                        }
+
+                        return ScenarioPostCard(
+                          isFavorited: isFav.data,
+                          documentReference: docSnapshot.reference,
+                          scenario: localscenario,
+                          userUid: userUid,
+                        );
+                      },
                     );
                   },
                 );

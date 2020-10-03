@@ -110,10 +110,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       key: scaffoldKey,
       backgroundColor: Colors.white,
       drawer: appDrawer(context),
-      body: IndexedStack(
-        index: currentIndex,
-        children: bodyStack,
-      ),
+      body: bodyStack.elementAt(currentIndex),
       floatingActionButton: floatingActionButtonSwitch(currentIndex),
       bottomNavigationBar: FloatingNavbar(
         selectedBackgroundColor: Colors.white,
