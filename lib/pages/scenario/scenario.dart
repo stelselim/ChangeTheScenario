@@ -19,9 +19,10 @@ class ScenarioPage extends StatefulWidget {
 
 class _ScenarioPageState extends State<ScenarioPage> {
   final ScrollController scrollController = ScrollController();
+  List scenariousDocs = []; // Scenarious
 
   /// Scenario Page Stream
-  final scenarioPageStream = FirebaseFirestore.instance
+  var scenarioPageStream = FirebaseFirestore.instance
       .collection(scenariosColletion)
       .orderBy("postTime", descending: true)
       .limit(20)
@@ -34,6 +35,8 @@ class _ScenarioPageState extends State<ScenarioPage> {
     // Should Listen Scroll Controller
     // scrollController.
   }
+
+  Future getScenarious() async {}
 
   @override
   void dispose() {
@@ -49,9 +52,17 @@ class _ScenarioPageState extends State<ScenarioPage> {
 
     return RefreshIndicator(
       onRefresh: () async {
+        // Refresh Posts
+        setState(() {
+          scenarioPageStream = FirebaseFirestore.instance
+              .collection(scenariosColletion)
+              .orderBy("postTime", descending: true)
+              .limit(20)
+              .get()
+              .asStream();
+        });
         await Future.delayed(Duration(milliseconds: 500));
         print("Refreshing");
-        setState(() {});
       },
       child: Column(
         children: [
@@ -75,8 +86,11 @@ class _ScenarioPageState extends State<ScenarioPage> {
                   );
                 }
 
+                /// Get Docs From Stream
+                scenariousDocs = snapshot.data.docs;
+
                 return ListView.builder(
-                  itemCount: snapshot.data.docs.length,
+                  itemCount: scenariousDocs.length,
                   shrinkWrap: true,
                   padding: EdgeInsets.only(top: 5, bottom: 60),
                   physics: ClampingScrollPhysics(),
@@ -84,9 +98,9 @@ class _ScenarioPageState extends State<ScenarioPage> {
                   itemBuilder: (context, index) {
                     /// Local Scenario
                     final localscenario = Scenario.fromMap(
-                      snapshot.data.docs.elementAt(index).data(),
+                      scenariousDocs.elementAt(index).data(),
                     );
-                    final docSnapshot = snapshot.data.docs.elementAt(index);
+                    final docSnapshot = scenariousDocs.elementAt(index);
                     final userUid =
                         Provider.of<UserState>(context, listen: false).user.uid;
 
@@ -104,7 +118,7 @@ class _ScenarioPageState extends State<ScenarioPage> {
                         }
 
                         return ScenarioPostCard(
-                          isFavorited: isFav.data,
+                          isFavoritedInitial: isFav.data,
                           documentReference: docSnapshot.reference,
                           scenario: localscenario,
                           userUid: userUid,

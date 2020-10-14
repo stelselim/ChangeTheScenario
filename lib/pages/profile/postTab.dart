@@ -15,6 +15,7 @@ class ProfilePostTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final userUid = Provider.of<UserState>(context, listen: false).user.uid;
 
+    /// Get Posts For This User
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection(scenariosColletion)
@@ -49,7 +50,6 @@ class ProfilePostTab extends StatelessWidget {
                   Provider.of<UserState>(context, listen: false).user.uid;
 
               /// Scenario Post Cards
-              /// Scenario Post Cards
               return FutureBuilder<bool>(
                   future: isFavoritedPost(docRef.id),
                   builder: (context, isFav) {
@@ -63,7 +63,7 @@ class ProfilePostTab extends StatelessWidget {
                     }
 
                     return ScenarioPostCard(
-                      isFavorited: isFav.data,
+                      isFavoritedInitial: isFav.data,
                       documentReference: docRef,
                       scenario: localscenario,
                       userUid: userUid,

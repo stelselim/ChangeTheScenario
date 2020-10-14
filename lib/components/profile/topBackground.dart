@@ -10,10 +10,12 @@ class ProfileInfoBackground extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * 0.28,
       decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [
-          Colors.blue.shade600,
-          Colors.purple.shade600,
-        ]),
+        gradient: LinearGradient(
+          colors: [
+            Colors.blue.shade600,
+            Colors.purple.shade600,
+          ],
+        ),
         color: Colors.white54,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(20),

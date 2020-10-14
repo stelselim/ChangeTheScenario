@@ -49,3 +49,8 @@ Future<bool> isFavoritedPost(String docId) async {
     return false;
   }
 }
+
+Future<void> deleteAllBookmarks() async {
+  final instance = await SharedPreferences.getInstance();
+  await instance.setStringList(favoriteKey, []);
+}

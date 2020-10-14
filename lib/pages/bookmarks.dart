@@ -23,17 +23,20 @@ class BookmarksPage extends StatelessWidget {
       body: StreamBuilder<List<String>>(
         stream: getFavoritesDoc().asStream(),
         builder: (context, snapshot) {
+          /// An Problem Occured
           if (snapshot.hasError)
             return Center(
               child: Text("An Error Occured"),
             );
+
+          /// Stream Data Hasn't Come
           if (snapshot.data == null)
             return Center(
               child: CircularProgressIndicator(),
             );
 
+          /// No Bookmark
           if (snapshot.data.length == 0) {
-            print("HEy");
             return Center(
               child: Container(
                 margin: EdgeInsets.all(25),
@@ -41,39 +44,44 @@ class BookmarksPage extends StatelessWidget {
                   "No Bookmark!",
                   textScaleFactor: 1.6,
                   style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.blueGrey.shade500),
+                    fontWeight: FontWeight.w600,
+                    color: Colors.blueGrey.shade500,
+                  ),
                 ),
               ),
             );
           }
 
+          /// List Of Bookmarks
           return ListView.builder(
             shrinkWrap: true,
             itemCount: snapshot.data.length,
             physics: ScrollPhysics(),
             itemBuilder: (context, index) {
+              /// Get The Document by Doc ID
               return FutureBuilder<DocumentSnapshot>(
-                  future: FirebaseFirestore.instance
-                      .collection(scenariosColletion)
-                      .doc(snapshot.data.elementAt(index))
-                      .get(),
-                  builder: (context, doc) {
-                    if (doc.hasError) return Container();
-                    if (doc.data == null) return Container();
+                future: FirebaseFirestore.instance
+                    .collection(scenariosColletion)
+                    .doc(snapshot.data.elementAt(index))
+                    .get(),
+                builder: (context, doc) {
+                  if (doc.hasError) return Container();
+                  if (doc.data == null) return Container();
 
-                    /// Get Doc
-                    final localscenario = Scenario.fromMap(doc.data.data());
-                    final docRef = doc.data.reference;
-                    return ScenarioPostCard(
-                      isFavorited: true,
-                      scenario: localscenario,
-                      documentReference: docRef,
-                      userUid: Provider.of<UserState>(context, listen: false)
-                          .user
-                          .uid,
-                    );
-                  });
+                  /// Get Scenario Class from Document Snapshot
+                  final localscenario = Scenario.fromMap(doc.data.data());
+                  final docRef = doc.data
+                      .reference; // Document Reference to Delete or get Doc Id.
+
+                  return ScenarioPostCard(
+                    isFavoritedInitial: true,
+                    scenario: localscenario,
+                    documentReference: docRef,
+                    userUid:
+                        Provider.of<UserState>(context, listen: false).user.uid,
+                  );
+                },
+              );
             },
           );
         },
