@@ -118,6 +118,7 @@ class _ScenarioPageState extends State<ScenarioPage> {
                         }
 
                         return ScenarioPostCard(
+                          setStateParent: setState,
                           isFavoritedInitial: isFav.data,
                           documentReference: docSnapshot.reference,
                           scenario: localscenario,

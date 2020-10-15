@@ -50,25 +50,28 @@ class ProfilePostTab extends StatelessWidget {
                   Provider.of<UserState>(context, listen: false).user.uid;
 
               /// Scenario Post Cards
-              return FutureBuilder<bool>(
-                  future: isFavoritedPost(docRef.id),
-                  builder: (context, isFav) {
-                    if (isFav.hasError) {
-                      // print("Problem");
-                      return Container();
-                    }
-                    if (isFav.data == null) {
-                      // print("Problem Data NUll");
-                      return Container();
-                    }
+              return StatefulBuilder(
+                builder: (context, setState) => FutureBuilder<bool>(
+                    future: isFavoritedPost(docRef.id),
+                    builder: (context, isFav) {
+                      if (isFav.hasError) {
+                        // print("Problem");
+                        return Container();
+                      }
+                      if (isFav.data == null) {
+                        // print("Problem Data NUll");
+                        return Container();
+                      }
 
-                    return ScenarioPostCard(
-                      isFavoritedInitial: isFav.data,
-                      documentReference: docRef,
-                      scenario: localscenario,
-                      userUid: userUid,
-                    );
-                  });
+                      return ScenarioPostCard(
+                        setStateParent: setState,
+                        isFavoritedInitial: isFav.data,
+                        documentReference: docRef,
+                        scenario: localscenario,
+                        userUid: userUid,
+                      );
+                    }),
+              );
             },
           );
         });

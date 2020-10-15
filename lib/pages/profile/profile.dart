@@ -10,7 +10,12 @@ import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
-  const ProfilePage({Key key, @required this.scaffoldKey}) : super(key: key);
+  final bool editable;
+  const ProfilePage({
+    Key key,
+    @required this.scaffoldKey,
+    @required this.editable,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -76,16 +81,18 @@ class ProfilePage extends StatelessWidget {
                       ),
 
                       /// Show Profile Edit Bottom Sheet
-                      GestureDetector(
-                        onTap: () => showProfileBottomSheet(context),
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                          ),
-                        ),
-                      )
+                      editable
+                          ? GestureDetector(
+                              onTap: () => showProfileBottomSheet(context),
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Icon(
+                                  Icons.edit,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          : Container(),
                     ],
                   ),
                 ),

@@ -14,13 +14,13 @@ Widget appBarWithText({
 }) =>
     AppBar(
       backgroundColor: mainSecondaryColor,
-      leading: IconButton(
-        icon: Icon(Icons.apps),
-        onPressed: () {
-          /// Open Drawer
-          scaffoldKey.currentState.openDrawer();
-        },
-      ),
+      // leading: IconButton(
+      //   icon: Icon(Icons.apps),
+      //   onPressed: () {
+      //     /// Open Drawer
+      //     scaffoldKey.currentState.openDrawer();
+      //   },
+      // ),
       title: Text(
         "$title",
         style: appbarTextStyle.copyWith(

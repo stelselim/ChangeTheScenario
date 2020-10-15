@@ -1,5 +1,6 @@
 import 'package:changescenario/Provider/UserState.dart';
 import 'package:changescenario/components/appDrawer.dart';
+import 'package:changescenario/pages/bookmarks.dart';
 import 'package:changescenario/pages/profile/profile.dart';
 import 'package:changescenario/pages/scenario/scenario.dart';
 import 'package:changescenario/pages/together/together.dart';
@@ -17,7 +18,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+class _HomeState extends State<Home> with TickerProviderStateMixin {
   /// Current Body Index
   int currentIndex = 0;
 
@@ -63,6 +64,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   /// Floating Action Button Will be Shown According to Current Index
   Widget floatingActionButtonSwitch(int index) {
     if (index == 0) {
+      /// Add Scenario
       return Container(
         margin: EdgeInsets.only(bottom: 15),
         child: AnimatedBuilder(
@@ -71,6 +73,23 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             return FloatingActionButton(
               backgroundColor: _colorTween.value,
               child: Icon(Icons.create),
+              onPressed: () {
+                Navigator.pushNamed(context, "/addScenario");
+              },
+            );
+          },
+        ),
+      );
+    } else if (index == 2) {
+      /// Add Together Event
+      return Container(
+        margin: EdgeInsets.only(bottom: 15),
+        child: AnimatedBuilder(
+          animation: _colorTween,
+          builder: (context, wid) {
+            return FloatingActionButton(
+              backgroundColor: _colorTween.value,
+              child: Icon(Icons.event_available_rounded),
               onPressed: () {
                 Navigator.pushNamed(context, "/addScenario");
               },
@@ -90,13 +109,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       ScenarioPage(
         scaffoldKey: scaffoldKey,
       ),
-      WeeklyList(
+      BookmarksPage(
         scaffoldKey: scaffoldKey,
       ),
       TogetherPage(
         scaffoldKey: scaffoldKey,
       ),
       ProfilePage(
+        editable: true,
         scaffoldKey: scaffoldKey,
       ),
     ];
@@ -109,7 +129,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
-      drawer: appDrawer(context),
+      // drawer: appDrawer(context),
       body: bodyStack.elementAt(currentIndex),
       floatingActionButton: floatingActionButtonSwitch(currentIndex),
       bottomNavigationBar: FloatingNavbar(
@@ -125,8 +145,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             title: 'Scenarios',
           ),
           FloatingNavbarItem(
-            icon: Icons.show_chart,
-            title: 'Watched',
+            icon: Icons.bookmarks,
+            title: 'Bookmarks',
           ),
           FloatingNavbarItem(
             icon: Icons.public,

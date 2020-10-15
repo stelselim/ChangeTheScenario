@@ -22,8 +22,6 @@ class RouteGenerator {
 
       case "/addScenario":
         return MaterialPageRoute(builder: (_) => ScenarioAddPage());
-      case "/bookmarks":
-        return MaterialPageRoute(builder: (_) => BookmarksPage());
 
       /// App
       case "/home":
