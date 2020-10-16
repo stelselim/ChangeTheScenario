@@ -1,11 +1,9 @@
 import 'package:changescenario/Firebase/database/updateUser.dart';
 import 'package:changescenario/Provider/UserState.dart';
-import 'package:changescenario/classes/User.dart';
 import 'package:changescenario/styles/InputDecoration.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 void showProfileBottomSheet(BuildContext context) async {

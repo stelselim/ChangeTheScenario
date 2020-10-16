@@ -9,12 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePostTab extends StatelessWidget {
-  const ProfilePostTab({Key key}) : super(key: key);
+  const ProfilePostTab({
+    Key key,
+    @required this.userUid,
+  }) : super(key: key);
+  final String userUid;
 
   @override
   Widget build(BuildContext context) {
-    final userUid = Provider.of<UserState>(context, listen: false).user.uid;
-
     /// Get Posts For This User
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -52,25 +54,26 @@ class ProfilePostTab extends StatelessWidget {
               /// Scenario Post Cards
               return StatefulBuilder(
                 builder: (context, setState) => FutureBuilder<bool>(
-                    future: isFavoritedPost(docRef.id),
-                    builder: (context, isFav) {
-                      if (isFav.hasError) {
-                        // print("Problem");
-                        return Container();
-                      }
-                      if (isFav.data == null) {
-                        // print("Problem Data NUll");
-                        return Container();
-                      }
+                  future: isFavoritedPost(docRef.id),
+                  builder: (context, isFav) {
+                    if (isFav.hasError) {
+                      // print("Problem");
+                      return Container();
+                    }
+                    if (isFav.data == null) {
+                      // print("Problem Data NUll");
+                      return Container();
+                    }
 
-                      return ScenarioPostCard(
-                        setStateParent: setState,
-                        isFavoritedInitial: isFav.data,
-                        documentReference: docRef,
-                        scenario: localscenario,
-                        userUid: userUid,
-                      );
-                    }),
+                    return ScenarioPostCard(
+                      setStateParent: setState,
+                      isFavoritedInitial: isFav.data,
+                      documentReference: docRef,
+                      scenario: localscenario,
+                      userUid: userUid,
+                    );
+                  },
+                ),
               );
             },
           );

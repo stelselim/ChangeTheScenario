@@ -1,6 +1,7 @@
 import 'package:changescenario/Provider/UserState.dart';
 import 'package:changescenario/classes/User.dart';
 import 'package:changescenario/components/profile/topBackground.dart';
+import 'package:changescenario/pages/profile/eventTab.dart';
 import 'package:changescenario/pages/profile/followersTab.dart';
 import 'package:changescenario/pages/profile/followingTab.dart';
 import 'package:changescenario/pages/profile/postTab.dart';
@@ -19,11 +20,13 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = Provider.of<UserState>(context).user;
+
     return Stack(
       children: [
         ProfileInfoBackground(),
         DefaultTabController(
-          length: 3,
+          length: 2,
           initialIndex: 0,
           child: Column(
             children: [
@@ -62,9 +65,9 @@ class ProfilePage extends StatelessWidget {
                               overflow: TextOverflow.clip,
                               style: TextStyle(
                                 fontSize: 22,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w800,
                                 color:
-                                    Colors.blueGrey.shade900.withOpacity(0.99),
+                                    Colors.blueGrey.shade900.withOpacity(0.95),
                               ),
                             ),
                             subtitle: Text(
@@ -99,7 +102,7 @@ class ProfilePage extends StatelessWidget {
               ),
 
               /// Expanded 5
-              /// Post & Follower / Following
+              /// Post & Follower/Following
               Expanded(
                 flex: 5,
                 child: Container(
@@ -120,12 +123,32 @@ class ProfilePage extends StatelessWidget {
                         child: RichText(
                           text: TextSpan(
                             children: [
-                              TextSpan(text: 'Your Posts'),
+                              TextSpan(
+                                text: 'Your Posts',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
                             ],
                           ),
                         ),
                       ),
                       Tab(
+                        child: Consumer<UserState>(
+                          builder: (context, state, _) => RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Your Events',
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      /// Following & Followers
+/* 
+                        Tab(
                         child: Consumer<UserState>(
                           builder: (context, state, _) => RichText(
                             text: TextSpan(
@@ -139,7 +162,7 @@ class ProfilePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
+                      ), 
                       Tab(
                         child: Consumer<UserState>(
                           builder: (context, state, _) => RichText(
@@ -154,7 +177,7 @@ class ProfilePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
+                      ), */
                     ],
                   ),
                 ),
@@ -165,9 +188,14 @@ class ProfilePage extends StatelessWidget {
                 flex: 30,
                 child: TabBarView(
                   children: [
-                    ProfilePostTab(),
-                    FollowingTab(),
-                    FollowersTab(),
+                    ProfilePostTab(
+                      userUid: currentUser.uid,
+                    ),
+                    ProfileEventTab(
+                      userUid: currentUser.uid,
+                    ),
+                    // FollowingTab(), Will Be Added Later
+                    // FollowersTab(), Will Be Added Later
                   ],
                 ),
               ),

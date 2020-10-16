@@ -91,7 +91,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               backgroundColor: _colorTween.value,
               child: Icon(Icons.event_available_rounded),
               onPressed: () {
-                Navigator.pushNamed(context, "/addScenario");
+                Navigator.pushNamed(context, "/createEvent");
               },
             );
           },
