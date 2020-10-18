@@ -1,6 +1,7 @@
 import 'package:changescenario/classes/Event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class EventCard extends StatelessWidget {
@@ -14,7 +15,7 @@ class EventCard extends StatelessWidget {
 
   final Function setStateParent;
 
-  String formatDate(DateTime date) => new DateFormat("d MMM yyyy").format(date);
+  static final df = DateFormat('hh:mm a\t\t dd-MM-yyyy');
 
   final FilmEvent filmEvent;
   final DocumentReference documentReference;
@@ -60,6 +61,148 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Card(
+      elevation: 5,
+      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(
+                  filmEvent.filmName,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: Colors.blueGrey.shade800,
+                    fontSize: 20,
+                  ),
+                ),
+                subtitle: Row(
+                  children: [
+                    Icon(
+                      Icons.person,
+                      size: 15,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      filmEvent.creatorNickname,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
+                ),
+                trailing: GestureDetector(
+                  child: Icon(
+                    Icons.notifications_active,
+                    color: Colors.grey.shade700,
+                    size: 32,
+                  ),
+                  onTap: () {
+                    Fluttertoast.showToast(
+                      msg: "The Notification is set!",
+                      gravity: ToastGravity.CENTER,
+                    );
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+
+              /// Watch Time
+              Text(
+                df.format(filmEvent.toWatchTime.toDate().toLocal()),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: filmEvent.label,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 28,
+                ),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Divider(),
+              SizedBox(
+                height: 8,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "Watchers",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.blueGrey.shade800,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Expanded(
+                      flex: 5,
+                      child: Container(
+                        height: 25,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: filmEvent.toWatchPeople.length,
+                          itemBuilder: (context, index) {
+                            return CircleAvatar(
+                              child: Text(
+                                filmEvent.toWatchPeople
+                                    .elementAt(index)
+                                    .toString()
+                                    .substring(0, 2),
+                              ),
+                              radius: 15,
+                              backgroundColor: filmEvent.label,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+
+                      /// If User == FilmEvent.creatorUid
+                      child: userUid == filmEvent.creatorUid
+                          ? GestureDetector(
+                              child: Icon(Icons.settings),
+                              onTap: () {},
+                            )
+                          : RaisedButton(
+                              color: Colors.indigo.shade100,
+                              child: Text(
+                                "JOIN",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.blueGrey.shade800,
+                                ),
+                              ),
+                              onPressed: () {},
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

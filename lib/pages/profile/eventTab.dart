@@ -1,6 +1,7 @@
 import 'package:changescenario/Firebase/constants/collectionAndDocs.dart';
 import 'package:changescenario/Provider/UserState.dart';
 import 'package:changescenario/classes/Event.dart';
+import 'package:changescenario/components/event/eventCard.dart';
 import 'package:changescenario/utility/bookmarkFunctions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -64,20 +65,11 @@ class ProfileEventTab extends StatelessWidget {
                     return Container();
                   }
 
-                  return Card(
-                    margin: EdgeInsets.all(10),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        children: [
-                          Text(localEvent.toWatchTime.toDate().toString()),
-                          Text(
-                            localEvent.toString(),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
+                  return EventCard(
+                    setStateParent: setState,
+                    filmEvent: localEvent,
+                    documentReference: docRef,
+                    userUid: userUid,
                   );
                 },
               ),

@@ -2,8 +2,11 @@ import 'package:changescenario/Firebase/constants/collectionAndDocs.dart';
 import 'package:changescenario/Provider/UserState.dart';
 import 'package:changescenario/classes/Event.dart';
 import 'package:changescenario/components/appBarWithText.dart';
+import 'package:changescenario/components/event/eventCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class TogetherPage extends StatefulWidget {
@@ -17,7 +20,7 @@ class TogetherPage extends StatefulWidget {
 class _TogetherPageState extends State<TogetherPage> {
   final ScrollController scrollController = ScrollController();
 
-  List eventDocs = []; // Scenarious
+  List<QueryDocumentSnapshot> eventDocs = []; // Scenarious
 
   /// Scenario Page Stream
   var eventPageStream = FirebaseFirestore.instance
@@ -33,8 +36,6 @@ class _TogetherPageState extends State<TogetherPage> {
     // Should Listen Scroll Controller
     // scrollController.
   }
-
-  Future getScenarious() async {}
 
   @override
   void dispose() {
@@ -90,28 +91,19 @@ class _TogetherPageState extends State<TogetherPage> {
                   controller: scrollController,
                   itemBuilder: (context, index) {
                     /// Local Scenario
-                    final localEvent = FilmEvent.fromMap(
+                    final filmEvent = FilmEvent.fromMap(
                       eventDocs.elementAt(index).data(),
                     );
                     final docSnapshot = eventDocs.elementAt(index);
                     final userUid =
                         Provider.of<UserState>(context, listen: false).user.uid;
 
-                    /// Scenario Post Cards
-                    return Card(
-                      margin: EdgeInsets.all(10),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(
-                          children: [
-                            Text(localEvent.toWatchTime.toDate().toString()),
-                            Text(
-                              localEvent.toString(),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      ),
+                    /// Scenario Event Cards
+                    return EventCard(
+                      setStateParent: setState,
+                      filmEvent: filmEvent,
+                      documentReference: eventDocs.elementAt(index).reference,
+                      userUid: userUid,
                     );
                   },
                 );

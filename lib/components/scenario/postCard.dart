@@ -270,7 +270,7 @@ class ScenarioPostCard extends StatelessWidget {
                           style: usernameTextStyle,
                         ),
                         Text(
-                          " posted on ${formatDate(scenario.postTime.toDate())}",
+                          " posted on ${formatDate(scenario.postTime.toDate().toLocal())}",
                           style: dateTextStyle,
                         ),
                       ],
