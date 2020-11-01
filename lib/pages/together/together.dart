@@ -55,7 +55,7 @@ class _TogetherPageState extends State<TogetherPage> {
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection(eventsCollection)
-                  .orderBy("toWatchTime", descending: true)
+                  .orderBy("toWatchTime", descending: false)
                   .where("toWatchTime", isGreaterThan: DateTime.now())
                   // .limit(20)
                   .get()

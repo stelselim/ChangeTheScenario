@@ -1,6 +1,7 @@
 import 'package:changescenario/Firebase/utility/joinAndLeave.dart';
 import 'package:changescenario/Provider/UserState.dart';
 import 'package:changescenario/classes/Event.dart';
+import 'package:changescenario/notification/notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -109,11 +110,16 @@ class EventCard extends StatelessWidget {
                     color: Colors.grey.shade700,
                     size: 32,
                   ),
-                  onTap: () {
-                    Fluttertoast.showToast(
-                      msg: "The Notification is set!",
-                      gravity: ToastGravity.CENTER,
-                    );
+                  onTap: () async {
+                    try {
+                      Fluttertoast.showToast(
+                        msg: "The Notification is set!",
+                        gravity: ToastGravity.CENTER,
+                      );
+                      setFilmEventNotification(filmEvent);
+                    } catch (e) {
+                      print(e);
+                    }
                   },
                 ),
               ),
