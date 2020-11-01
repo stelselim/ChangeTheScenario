@@ -2,7 +2,6 @@ import 'package:changescenario/classes/Scenario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future likePost(
-  Scenario scenario,
   DocumentReference documentReference,
   String userUid,
 ) async {
@@ -17,7 +16,6 @@ Future likePost(
 }
 
 Future unlikePost(
-  Scenario scenario,
   DocumentReference documentReference,
   String userUid,
 ) async {
@@ -32,7 +30,6 @@ Future unlikePost(
 }
 
 Future dislikePost(
-  Scenario scenario,
   DocumentReference documentReference,
   String userUid,
 ) async {
@@ -47,7 +44,6 @@ Future dislikePost(
 }
 
 Future undislikePost(
-  Scenario scenario,
   DocumentReference documentReference,
   String userUid,
 ) async {

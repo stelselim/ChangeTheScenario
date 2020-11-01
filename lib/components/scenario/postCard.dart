@@ -436,7 +436,6 @@ class ScenarioPostCard extends StatelessWidget {
                                   try {
                                     if (dislikedPost) {
                                       await undislikePost(
-                                        scenario,
                                         documentReference,
                                         userUid,
                                       );
@@ -444,7 +443,6 @@ class ScenarioPostCard extends StatelessWidget {
                                       setStateParent(() {});
                                     } else {
                                       await dislikePost(
-                                        scenario,
                                         documentReference,
                                         userUid,
                                       );
@@ -477,7 +475,6 @@ class ScenarioPostCard extends StatelessWidget {
                                   try {
                                     if (likedPost) {
                                       await unlikePost(
-                                        scenario,
                                         documentReference,
                                         userUid,
                                       );
@@ -485,7 +482,6 @@ class ScenarioPostCard extends StatelessWidget {
                                       setStateParent(() {});
                                     } else {
                                       await likePost(
-                                        scenario,
                                         documentReference,
                                         userUid,
                                       );

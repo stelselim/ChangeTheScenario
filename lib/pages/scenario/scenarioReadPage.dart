@@ -339,7 +339,7 @@ class ScenarioReadPage extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Align(
                     child: Text(
-                      "${scenario.script} ${scenario.script}${scenario.script}${scenario.script}${scenario.script}${scenario.script}${scenario.script}${scenario.script}${scenario.script}${scenario.script} ${scenario.script}${scenario.script}${scenario.script}${scenario.script} ${scenario.script}${scenario.script}${scenario.script}",
+                      "${scenario.script}",
                       style: scriptTextStyle,
                     ),
                   ),
@@ -432,7 +432,6 @@ class ScenarioReadPage extends StatelessWidget {
                                 try {
                                   if (dislikedPost) {
                                     await undislikePost(
-                                      scenario,
                                       documentReference,
                                       userUid,
                                     );
@@ -440,7 +439,6 @@ class ScenarioReadPage extends StatelessWidget {
                                     setState(() {});
                                   } else {
                                     await dislikePost(
-                                      scenario,
                                       documentReference,
                                       userUid,
                                     );
@@ -473,7 +471,6 @@ class ScenarioReadPage extends StatelessWidget {
                                 try {
                                   if (likedPost) {
                                     await unlikePost(
-                                      scenario,
                                       documentReference,
                                       userUid,
                                     );
@@ -481,7 +478,6 @@ class ScenarioReadPage extends StatelessWidget {
                                     setState(() {});
                                   } else {
                                     await likePost(
-                                      scenario,
                                       documentReference,
                                       userUid,
                                     );

@@ -1,8 +1,11 @@
+import 'package:changescenario/Firebase/utility/joinAndLeave.dart';
+import 'package:changescenario/Provider/UserState.dart';
 import 'package:changescenario/classes/Event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class EventCard extends StatelessWidget {
   const EventCard({
@@ -61,6 +64,10 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Watcher Uid List
+
+    final uidList = filmEvent.toWatchPeople.map((e) => e.userUid).toList();
+    final user = Provider.of<UserState>(context, listen: false).user;
     return Card(
       elevation: 5,
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
@@ -161,7 +168,7 @@ class EventCard extends StatelessWidget {
                               child: Text(
                                 filmEvent.toWatchPeople
                                     .elementAt(index)
-                                    .toString()
+                                    .nickname
                                     .substring(0, 2),
                               ),
                               radius: 15,
@@ -209,7 +216,7 @@ class EventCard extends StatelessWidget {
                                                       trailing:
                                                           Icon(Icons.delete),
                                                       title: Text(
-                                                          "This post is going to be deleted, are you sure?"),
+                                                          "This event is going to be deleted, are you sure?"),
                                                     ),
                                                     ButtonBar(
                                                       children: [
@@ -257,14 +264,38 @@ class EventCard extends StatelessWidget {
                               child: RaisedButton(
                                 color: Colors.indigo.shade100,
                                 child: Text(
-                                  "JOIN",
+                                  !uidList.contains(user.uid) ? "JOIN" : "EXIT",
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w800,
                                     color: Colors.blueGrey.shade800,
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  try {
+                                    if (!uidList.contains(user.uid)) {
+                                      final watcher = Watcher(
+                                        nickname: user.nickname,
+                                        userUid: user.uid,
+                                      );
+                                      await joinEvent(
+                                        documentReference,
+                                        watcher,
+                                      );
+                                      setStateParent(() {});
+                                    } else {
+                                      print("HERE Exit");
+                                      final watcherUid = user.uid;
+                                      await leaveEvent(
+                                        documentReference,
+                                        watcherUid,
+                                      );
+                                      setStateParent(() {});
+                                    }
+                                  } catch (e) {
+                                    print(e);
+                                  }
+                                },
                               ),
                             ),
                     ),

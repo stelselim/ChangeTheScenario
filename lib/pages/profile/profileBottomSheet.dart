@@ -201,53 +201,57 @@ void showProfileBottomSheet(BuildContext context) async {
               ),
 
               /// Sign Out - Delete My Account Button
-              ButtonBar(
-                alignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlatButton(
-                    child: Text(
-                      "Change Password",
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: ButtonBar(
+                  alignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FlatButton(
+                      child: Text(
+                        "Change Password",
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
+                      onPressed: () async {
+                        try {
+                          final String email =
+                              Provider.of<UserState>(context, listen: false)
+                                  .user
+                                  .email;
+                          await FirebaseAuth.instance
+                              .sendPasswordResetEmail(email: email);
+                          Fluttertoast.showToast(
+                              msg: "Password Change Email Sent!");
+                        } catch (e) {
+                          Fluttertoast.showToast(
+                              msg: "Can Not Send, Try Later");
+                          print(e);
+                        }
+                      },
                     ),
-                    onPressed: () async {
-                      try {
-                        final String email =
-                            Provider.of<UserState>(context, listen: false)
-                                .user
-                                .email;
-                        await FirebaseAuth.instance
-                            .sendPasswordResetEmail(email: email);
-                        Fluttertoast.showToast(
-                            msg: "Password Change Email Sent!");
-                      } catch (e) {
-                        Fluttertoast.showToast(msg: "Can Not Send, Try Later");
-                        print(e);
-                      }
-                    },
-                  ),
-                  FlatButton(
-                    child: Text(
-                      "Sign Out",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                    FlatButton(
+                      child: Text(
+                        "Sign Out",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
+                      onPressed: () async {
+                        try {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.of(context).pushReplacementNamed("/");
+                        } catch (e) {
+                          print(e);
+                        }
+                      },
                     ),
-                    onPressed: () async {
-                      try {
-                        await FirebaseAuth.instance.signOut();
-                        Navigator.of(context).pushReplacementNamed("/");
-                      } catch (e) {
-                        print(e);
-                      }
-                    },
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           ),
