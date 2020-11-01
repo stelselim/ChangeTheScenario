@@ -10,6 +10,7 @@ class Scenario {
   final Timestamp postTime; // Post Date
   final String script; // New Scenario
   final String writerUID; // writer Uid
+  final String userBio; // writer Uid
   final List<String> likedUserUIDs; // Liked Users Uids
   final List<String> dislikedUserUIDs; // Disliked Users Uids
   final List<ScenarioComment> comments; // Comments
@@ -19,6 +20,7 @@ class Scenario {
     @required this.scriptChanger,
     @required this.postTime,
     @required this.script,
+    @required this.userBio,
     @required this.writerUID,
     @required this.likedUserUIDs,
     @required this.dislikedUserUIDs,
@@ -32,6 +34,7 @@ class Scenario {
       'scriptChanger': scriptChanger,
       'postTime': postTime,
       'script': script,
+      "userBio": userBio,
       'writerUID': writerUID,
       'likedUserUIDs': likedUserUIDs,
       'dislikedUserUIDs': dislikedUserUIDs,
@@ -48,6 +51,7 @@ class Scenario {
       scriptChanger: map['scriptChanger'],
       postTime: map['postTime'],
       script: map['script'],
+      userBio: map['userBio'],
       writerUID: map['writerUID'],
       likedUserUIDs: List<String>.from(map['likedUserUIDs']),
       dislikedUserUIDs: List<String>.from(map['dislikedUserUIDs']),
@@ -67,6 +71,7 @@ class Scenario {
     String scriptChanger,
     Timestamp postTime,
     String script,
+    String userBio,
     String writerUID,
     List<String> likedUserUIDs,
     List<String> dislikedUserUIDs,
@@ -78,6 +83,7 @@ class Scenario {
       scriptChanger: scriptChanger ?? this.scriptChanger,
       postTime: postTime ?? this.postTime,
       script: script ?? this.script,
+      userBio: userBio ?? this.userBio,
       writerUID: writerUID ?? this.writerUID,
       likedUserUIDs: likedUserUIDs ?? this.likedUserUIDs,
       dislikedUserUIDs: dislikedUserUIDs ?? this.dislikedUserUIDs,

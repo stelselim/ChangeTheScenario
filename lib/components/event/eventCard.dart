@@ -136,7 +136,7 @@ class EventCard extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      flex: 2,
+                      flex: 3,
                       child: Text(
                         "Watchers",
                         style: TextStyle(
@@ -149,7 +149,7 @@ class EventCard extends StatelessWidget {
                       width: 4,
                     ),
                     Expanded(
-                      flex: 5,
+                      flex: 6,
                       child: Container(
                         height: 25,
                         child: ListView.builder(
@@ -172,25 +172,100 @@ class EventCard extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      flex: 2,
+                      flex: 3,
 
                       /// If User == FilmEvent.creatorUid
                       child: userUid == filmEvent.creatorUid
-                          ? GestureDetector(
-                              child: Icon(Icons.settings),
-                              onTap: () {},
-                            )
-                          : RaisedButton(
-                              color: Colors.indigo.shade100,
-                              child: Text(
-                                "JOIN",
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.blueGrey.shade800,
+                          ? DropdownButton(
+                              isExpanded: true,
+                              onChanged: (val) {},
+                              underline: Container(),
+                              icon: Icon(Icons.more_horiz),
+                              items: [
+                                DropdownMenuItem(
+                                  value: "Delete",
+                                  child: Text(
+                                    "Delete",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  onTap: () async {
+                                    try {
+                                      await Future.delayed(
+                                        Duration(milliseconds: 500),
+                                      );
+                                      await showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return Dialog(
+                                              child: Container(
+                                                height: 120,
+                                                width: 500,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    ListTile(
+                                                      trailing:
+                                                          Icon(Icons.delete),
+                                                      title: Text(
+                                                          "This post is going to be deleted, are you sure?"),
+                                                    ),
+                                                    ButtonBar(
+                                                      children: [
+                                                        FlatButton(
+                                                            child:
+                                                                Text("Cancel"),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            }),
+                                                        RaisedButton(
+                                                          child: Text("Delete"),
+                                                          onPressed: () async {
+                                                            try {
+                                                              await documentReference
+                                                                  .delete();
+
+                                                              Navigator.pop(
+                                                                  context);
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                      msg:
+                                                                          "Post Deleted, Refresh Page!");
+                                                            } catch (e) {
+                                                              print(e);
+                                                            }
+                                                          },
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                    } catch (e) {
+                                      print(e);
+                                    }
+                                  },
                                 ),
+                              ],
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(left: 4.0),
+                              child: RaisedButton(
+                                color: Colors.indigo.shade100,
+                                child: Text(
+                                  "JOIN",
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.blueGrey.shade800,
+                                  ),
+                                ),
+                                onPressed: () {},
                               ),
-                              onPressed: () {},
                             ),
                     ),
                   ],

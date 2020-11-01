@@ -297,6 +297,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       final AppUser newUser = AppUser(
                         bio: "",
                         dislikedFilms: [],
+                        blockedUsers: [],
                         likedFilms: [],
                         email: email,
                         followers: [],
@@ -312,6 +313,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         password: password,
                       );
                       Fluttertoast.showToast(msg: "Welcome To The Community!");
+                      Navigator.pop(context);
                       Navigator.of(context).pushReplacementNamed("/");
                     } catch (e) {
                       print(e);

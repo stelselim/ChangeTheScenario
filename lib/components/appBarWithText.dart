@@ -14,6 +14,7 @@ Widget appBarWithText({
 }) =>
     AppBar(
       backgroundColor: mainSecondaryColor,
+      leading: null,
       // leading: IconButton(
       //   icon: Icon(Icons.apps),
       //   onPressed: () {

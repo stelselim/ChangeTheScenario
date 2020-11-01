@@ -123,6 +123,7 @@ class ScenarioAddPage extends StatelessWidget {
                       if (formKey.currentState.validate()) {
                         final scenario = Scenario(
                           writerUID: currentUser.uid,
+                          userBio: currentUser.bio,
                           scriptChanger: currentUser.nickname,
                           dislikedUserUIDs: [],
                           comments: [],

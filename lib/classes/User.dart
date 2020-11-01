@@ -9,6 +9,7 @@ class AppUser {
   final String email;
   final String bio;
   final Timestamp registerDate;
+  final List<String> blockedUsers;
   final List<String> likedFilms;
   final List<String> dislikedFilms;
   final List<Follower> followers;
@@ -19,6 +20,7 @@ class AppUser {
     @required this.nickname,
     @required this.uid,
     @required this.bio,
+    @required this.blockedUsers,
     @required this.email,
     @required this.registerDate,
     @required this.likedFilms,
@@ -32,6 +34,7 @@ class AppUser {
     String bio,
     Timestamp registerDate,
     List<String> likedFilms,
+    List<String> blockedUsers,
     List<String> dislikedFilms,
     List<Follower> followers,
     List<Follower> following,
@@ -41,6 +44,7 @@ class AppUser {
       uid: uid ?? this.uid,
       email: email ?? this.email,
       bio: bio ?? this.bio,
+      blockedUsers: blockedUsers ?? this.blockedUsers,
       registerDate: registerDate ?? this.registerDate,
       likedFilms: likedFilms ?? this.likedFilms,
       dislikedFilms: dislikedFilms ?? this.dislikedFilms,
@@ -55,6 +59,7 @@ class AppUser {
       'uid': uid,
       'email': email,
       'bio': bio,
+      'blockedUsers': blockedUsers,
       'registerDate': registerDate,
       'likedFilms': likedFilms,
       'dislikedFilms': dislikedFilms,
@@ -71,6 +76,7 @@ class AppUser {
       uid: map['uid'],
       email: map['email'],
       bio: map['bio'],
+      blockedUsers: map['blockedUsers'],
       registerDate: map['registerDate'],
       likedFilms: List<String>.from(map['likedFilms']),
       dislikedFilms: List<String>.from(map['dislikedFilms']),
@@ -88,6 +94,6 @@ class AppUser {
 
   @override
   String toString() {
-    return 'AppUser(nickname: $nickname, uid: $uid, email: $email, bio: $bio, registerDate: $registerDate, likedFilms: $likedFilms, dislikedFilms: $dislikedFilms, followers: $followers, following: $following)';
+    return 'AppUser(nickname: $nickname, uid: $uid, email: $email, blockedUsers: $blockedUsers, bio: $bio, registerDate: $registerDate, likedFilms: $likedFilms, dislikedFilms: $dislikedFilms, followers: $followers, following: $following)';
   }
 }

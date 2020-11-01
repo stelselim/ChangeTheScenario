@@ -57,8 +57,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    super.dispose();
     _animationController.dispose();
+    super.dispose();
   }
 
   /// Floating Action Button Will be Shown According to Current Index

@@ -22,12 +22,6 @@ class _ScenarioPageState extends State<ScenarioPage> {
   List scenariousDocs = []; // Scenarious
 
   /// Scenario Page Stream
-  var scenarioPageStream = FirebaseFirestore.instance
-      .collection(scenariosColletion)
-      .orderBy("postTime", descending: true)
-      .limit(20)
-      .get()
-      .asStream();
 
   @override
   void initState() {
@@ -53,14 +47,7 @@ class _ScenarioPageState extends State<ScenarioPage> {
     return RefreshIndicator(
       onRefresh: () async {
         // Refresh Posts
-        setState(() {
-          scenarioPageStream = FirebaseFirestore.instance
-              .collection(scenariosColletion)
-              .orderBy("postTime", descending: true)
-              .limit(20)
-              .get()
-              .asStream();
-        });
+        setState(() {});
         await Future.delayed(Duration(milliseconds: 500));
         print("Refreshing");
       },
@@ -74,7 +61,12 @@ class _ScenarioPageState extends State<ScenarioPage> {
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: scenarioPageStream,
+              stream: FirebaseFirestore.instance
+                  .collection(scenariosColletion)
+                  .orderBy("postTime", descending: true)
+                  .limit(20)
+                  .get()
+                  .asStream(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(child: Text("An Error Occured"));

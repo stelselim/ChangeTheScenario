@@ -6,19 +6,24 @@ import 'package:changescenario/pages/profile/profileBottomSheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ProfilePage extends StatelessWidget {
+class OtherProfilePage extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final bool editable;
-  const ProfilePage({
+  const OtherProfilePage({
     Key key,
     @required this.scaffoldKey,
+    @required this.nickname,
+    @required this.otherUserUid,
     @required this.editable,
+    @required this.bio,
   }) : super(key: key);
+
+  final String nickname;
+  final String bio;
+  final String otherUserUid;
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = Provider.of<UserState>(context).user;
-
     return Stack(
       children: [
         ProfileInfoBackground(),
@@ -39,42 +44,37 @@ class ProfilePage extends StatelessWidget {
                       Expanded(
                         flex: 2,
                         child: Container(
-                          child: Consumer<UserState>(
-                            builder: (context, state, _) => CircleAvatar(
-                              child: Text(
-                                "${state.user.nickname.substring(0, 2).toUpperCase()}",
-                                textScaleFactor: 2.5,
-                              ),
-                              minRadius: 30,
-                              maxRadius: 40,
+                          child: CircleAvatar(
+                            child: Text(
+                              "${nickname.substring(0, 2).toUpperCase()}",
+                              textScaleFactor: 2.5,
                             ),
+                            minRadius: 30,
+                            maxRadius: 40,
                           ),
                         ),
                       ),
                       // Nickname
                       Expanded(
                         flex: 5,
-                        child: Consumer<UserState>(
-                          builder: (context, state, _) => ListTile(
-                            title: Text(
-                              "${state.user.nickname}",
-                              maxLines: 1,
-                              overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w800,
-                                color:
-                                    Colors.blueGrey.shade900.withOpacity(0.95),
-                              ),
+                        child: ListTile(
+                          title: Text(
+                            "$nickname",
+                            maxLines: 1,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.blueGrey.shade900.withOpacity(0.95),
                             ),
-                            subtitle: Text(
-                              "${state.user.bio}",
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
+                          ),
+                          subtitle: Text(
+                            "$bio",
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
                             ),
                           ),
                         ),
@@ -185,16 +185,15 @@ class ProfilePage extends StatelessWidget {
                 flex: 30,
                 child: TabBarView(
                   children: [
-                    ProfilePostTab(
-                      userUid: currentUser.uid,
-                    ),
-                    ProfileEventTab(
-                      userUid: currentUser.uid,
-                    ),
+                    ProfilePostTab(userUid: otherUserUid),
+                    ProfileEventTab(userUid: otherUserUid),
                     // FollowingTab(), Will Be Added Later
                     // FollowersTab(), Will Be Added Later
                   ],
                 ),
+              ),
+              SizedBox(
+                height: 20,
               ),
             ],
           ),

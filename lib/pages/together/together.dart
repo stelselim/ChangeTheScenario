@@ -22,14 +22,6 @@ class _TogetherPageState extends State<TogetherPage> {
 
   List<QueryDocumentSnapshot> eventDocs = []; // Scenarious
 
-  /// Scenario Page Stream
-  var eventPageStream = FirebaseFirestore.instance
-      .collection(eventsCollection)
-      .orderBy("toWatchTime", descending: true)
-      .limit(20)
-      .get()
-      .asStream();
-
   @override
   void initState() {
     super.initState();
@@ -47,14 +39,7 @@ class _TogetherPageState extends State<TogetherPage> {
     return RefreshIndicator(
       onRefresh: () async {
         // Refresh Posts
-        setState(() {
-          eventPageStream = FirebaseFirestore.instance
-              .collection(eventsCollection)
-              .orderBy("toWatchTime", descending: true)
-              .limit(20)
-              .get()
-              .asStream();
-        });
+        setState(() {});
         await Future.delayed(Duration(milliseconds: 500));
         print("Refreshing");
       },
@@ -68,7 +53,13 @@ class _TogetherPageState extends State<TogetherPage> {
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: eventPageStream,
+              stream: FirebaseFirestore.instance
+                  .collection(eventsCollection)
+                  .orderBy("toWatchTime", descending: true)
+                  .where("toWatchTime", isGreaterThan: DateTime.now())
+                  // .limit(20)
+                  .get()
+                  .asStream(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(child: Text("An Error Occured"));
