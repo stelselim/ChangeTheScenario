@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:changescenario/Firebase/constants/collectionAndDocs.dart';
 import 'package:changescenario/Provider/UserState.dart';
 import 'package:changescenario/classes/Scenario.dart';
@@ -37,7 +39,9 @@ class _ScenarioPageState extends State<ScenarioPage> {
 
   @override
   Widget build(BuildContext context) {
-    setStatusBarColorLight();
+    if (Platform.isIOS) {
+      setStatusBarColorLight();
+    }
 
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;

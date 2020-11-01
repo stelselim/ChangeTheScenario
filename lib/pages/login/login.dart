@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:changescenario/Firebase/auth/userOperations.dart';
 import 'package:changescenario/Firebase/constants/collectionAndDocs.dart';
 import 'package:changescenario/Provider/UserState.dart';
@@ -61,7 +63,9 @@ class _LoginPageState extends State<LoginPage> {
     final formButtonSpaceRatio = 0.035;
 
     /// Light Status Color
-    setStatusBarColorDark();
+    if (Platform.isIOS) {
+      setStatusBarColorDark();
+    }
 
     if (autoLogin) {
       return Scaffold(
@@ -269,9 +273,13 @@ class _LoginPageState extends State<LoginPage> {
                       try {
                         await signInWithEmail(email, password);
                         await loginFunction(context);
+                        // print("heeer");
+
                         Fluttertoast.showToast(msg: "Logged In!");
                       } catch (e) {}
                     } else {
+                      print("heeer");
+
                       Fluttertoast.showToast(
                           msg: "Check Your Email or Password");
                     }

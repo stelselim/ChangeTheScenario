@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:changescenario/classes/FilmsItem.dart';
 import 'package:changescenario/components/appBarWithText.dart';
 import 'package:changescenario/components/weeklist/filmListTile.dart';
@@ -30,7 +32,9 @@ class WeeklyList extends StatefulWidget {
 class _WeeklyListState extends State<WeeklyList> {
   @override
   Widget build(BuildContext context) {
-    setStatusBarColorLight();
+    if (Platform.isIOS) {
+      setStatusBarColorLight();
+    }
 
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;

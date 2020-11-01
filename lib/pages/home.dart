@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:changescenario/Provider/UserState.dart';
 import 'package:changescenario/components/appDrawer.dart';
 import 'package:changescenario/pages/bookmarks.dart';
@@ -38,7 +40,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    setStatusBarColorLight();
+    if (Platform.isIOS) {
+      setStatusBarColorLight();
+    }
 
     /// Animation Controller For Floating Action Button
     _animationController = AnimationController(

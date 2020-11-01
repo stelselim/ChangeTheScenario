@@ -76,7 +76,7 @@ class AppUser {
       uid: map['uid'],
       email: map['email'],
       bio: map['bio'],
-      blockedUsers: map['blockedUsers'],
+      blockedUsers: List<String>.from(map['blockedUsers']),
       registerDate: map['registerDate'],
       likedFilms: List<String>.from(map['likedFilms']),
       dislikedFilms: List<String>.from(map['dislikedFilms']),
